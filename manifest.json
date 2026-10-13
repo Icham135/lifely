@@ -1,0 +1,10 @@
+{
+  "name": "Lifely – Ihr digitaler Vorsorgeordner",
+  "short_name": "Lifely",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0e7a6c",
+  "lang": "de-CH",
+  "icons": [{ "src": "icons/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
