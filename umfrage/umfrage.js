@@ -43,7 +43,7 @@ function intro() {
       <h2>Darum geht es: Lifely</h2>
       <p>${esc(p2)}</p>
       <div class="shots" tabindex="0" aria-label="Bilder der App">
-        ${shots.map(([f, c]) => `<figure><div class="phone"><img src="../img/screen-${f}.png" alt="${c}" loading="lazy"></div><figcaption>${c}</figcaption></figure>`).join('')}
+        ${shots.map(([f, c]) => `<figure><div class="phone"><img src="../img/screen-${f}.jpg" alt="${c}" loading="lazy"></div><figcaption>${c}</figcaption></figure>`).join('')}
       </div>
       <a class="text-link" href="../app/" target="_blank" rel="noopener">${svg('phone')} App selbst ausprobieren (öffnet neues Fenster)</a>
     </div>

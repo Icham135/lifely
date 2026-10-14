@@ -1,6 +1,7 @@
 /* App-Screenshots für Landingpage und Umfrage (Beispieldaten, nichts Echtes).
    Voraussetzung: lokaler Server auf Port 5173 (ruby -run -e httpd . -p 5173).
-   Aufruf: node tools/screens.mjs  → img/screen-*.png */
+   Aufruf: node tools/screens.mjs  → img/screen-*.jpg */
+import { execSync } from 'node:child_process';
 import { chromium } from '/Users/ilies/Desktop/Brained/node_modules/playwright/index.mjs';
 
 const BASE = 'http://localhost:5173/app/index.html';
@@ -60,5 +61,17 @@ await shot('assistent', 'home', async () => {
   await page.waitForTimeout(1500);
   await page.evaluate(() => window.scrollTo(0, 0));
 });
+await shot('checkliste', 'assistant', async () => {
+  await page.evaluate(() => { state.guideTab = 'lists'; state.listWho = 'family'; go('assistant'); });
+});
+await shot('bestattung', 'vorsorge', async () => { await page.evaluate(() => go('section', { id: 'funeral' })); });
+// Startseite in den anderen Sprachen
+for (const l of ['fr', 'en', 'it']) {
+  await page.evaluate((l) => localStorage.setItem('lifely_lang', JSON.stringify(l)), l);
+  await shot('start-' + l, 'home');
+}
+await page.evaluate(() => localStorage.setItem('lifely_lang', '"de"'));
 await browser.close();
+// kleiner machen: JPEG, 640 px breit
+execSync(`cd ${OUT} && for f in screen-*.png; do sips -s format jpeg -s formatOptions 82 --resampleWidth 640 "$f" --out "\${f%.png}.jpg" >/dev/null && rm "$f"; done`);
 console.log('fertig');
