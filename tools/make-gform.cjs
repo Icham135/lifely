@@ -36,11 +36,11 @@ function lifelyForm() {
   const ids = {};
   items.forEach(([q, it]) => {
     let r;
-    if (q.type === 'radio') r = it.asMultipleChoiceItem().createResponse(q.opts[0]);
-    if (q.type === 'check') r = it.asCheckboxItem().createResponse([q.opts[0]]);
-    if (q.type === 'text') r = it.asParagraphTextItem().createResponse('x');
-    if (q.type === 'short') r = it.asTextItem().createResponse('x');
-    if (q.type === 'scale') r = it.asScaleItem().createResponse(1);
+    if (q.type === 'radio') r = it.createResponse(q.opts[0]);
+    if (q.type === 'check') r = it.createResponse([q.opts[0]]);
+    if (q.type === 'text') r = it.createResponse('x');
+    if (q.type === 'short') r = it.createResponse('x');
+    if (q.type === 'scale') r = it.createResponse(1);
     ids[q.k] = f.createResponse().withItemResponse(r).toPrefilledUrl().match(/entry\\.(\\d+)/)[1];
   });
   Logger.log('LIFELY_RESULT ' + JSON.stringify({ id: f.getId(), view: f.getPublishedUrl(), edit: f.getEditUrl(), sheet: ss.getUrl(), ids }));
