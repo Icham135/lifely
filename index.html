@@ -3,19 +3,112 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0e7a6c">
-  <meta name="description" content="Lifely – Ihre wichtigen Unterlagen sicher an einem Ort, für Sie und Ihre Angehörigen.">
-  <title>Lifely</title>
-  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#f4f1ea">
+  <title>Lifely – Ihr digitaler Vorsorgeordner</title>
+  <meta name="description" content="Lifely ordnet Ihre wichtigen Unterlagen an einem Ort. Im Ernstfall finden Ihre Angehörigen sofort, was sie brauchen. Ein Projekt der Berner Fachhochschule BFH.">
+  <meta property="og:title" content="Lifely – Ihr digitaler Vorsorgeordner">
+  <meta property="og:description" content="Alle wichtigen Unterlagen an einem Ort – für Sie und Ihre Angehörigen.">
+  <meta property="og:image" content="img/screen-start.png">
   <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icons/logo.svg">
-  <link rel="stylesheet" href="styles.css?v=33">
+  <link rel="stylesheet" href="site.css?v=1">
 </head>
 <body>
-  <main id="app" aria-live="polite"></main>
-  <div id="toast" role="status" hidden></div>
-  <script src="config.js?v=33"></script>
-  <script src="i18n.js?v=33"></script>
-  <script src="app.js?v=33"></script>
+  <header class="nav">
+    <a class="brand" href="./"><img src="icons/logo.svg" alt="">Lifely</a>
+    <a class="pill dark" href="app/">App ausprobieren</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="marquee" aria-hidden="true"><div class="track">
+        <span>Dokumente</span><span>Assistent</span><span>Vertrauenspersonen</span><span>Erinnerungen</span><span>Notfall-Ansicht</span><span>4 Sprachen</span><span>Kostenlos</span>
+        <span>Dokumente</span><span>Assistent</span><span>Vertrauenspersonen</span><span>Erinnerungen</span><span>Notfall-Ansicht</span><span>4 Sprachen</span><span>Kostenlos</span>
+      </div></div>
+      <h1>Alles Wichtige.<br>An einem Ort.</h1>
+      <p class="lead">Lifely ist Ihr digitaler Vorsorgeordner. Fotografieren Sie Policen, Verträge und Vollmachten, halten Sie Ihre Wünsche fest – und im Ernstfall finden Ihre Angehörigen sofort, was sie brauchen.</p>
+      <div class="cta">
+        <a class="pill primary big" href="app/">App ausprobieren <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18.5h2"/></svg></a>
+        <a class="pill soft big" href="umfrage/">An der Umfrage teilnehmen</a>
+      </div>
+      <div class="phone hero-phone"><img src="img/screen-start.png" alt="Startseite der Lifely-App mit Assistent und Fortschritt"></div>
+    </section>
+
+    <p class="band">Eine Projektarbeit an der Berner Fachhochschule BFH · Prototyp</p>
+
+    <section class="why">
+      <p class="eyebrow">Warum Lifely</p>
+      <h2>Wenn es darauf ankommt,<br>soll niemand suchen müssen.</h2>
+      <div class="cards">
+        <article class="card"><span class="ic coral"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span><h3>Unterlagen sind verstreut</h3><p>Policen im Ordner, das Testament beim Notar, Abos im Kopf. Angehörige wissen oft nicht, wo sie anfangen sollen.</p></article>
+        <article class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><h3>Wünsche sind nicht bekannt</h3><p>Was möchten Sie im Spital? Wie soll die Abdankung sein? Lifely hält es fest – in Ihren Worten.</p></article>
+        <article class="card"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h3>Im Ernstfall fehlt die Zeit</h3><p>Fristen, Behörden, Versicherungen: Eine Checkliste zeigt Schritt für Schritt, was zu tun ist.</p></article>
+      </div>
+    </section>
+
+    <section class="how">
+      <p class="eyebrow">So funktioniert's</p>
+      <h2>Lifely macht es einfach.</h2>
+      <ol class="steps">
+        <li><span class="step-ic"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></svg></span><h3>1. Fotografieren</h3><p>Dokument auf den Tisch legen, Foto machen, Kategorie wählen – fertig.</p></li>
+        <li><span class="step-ic"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg></span><h3>2. Ergänzen</h3><p>Verträge, Banken, Kontakte und Bestattungswünsche erfassen. Lifely zeigt, was noch fehlt.</p></li>
+        <li><span class="step-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/></svg></span><h3>3. Vertrauen schenken</h3><p>Bestimmen Sie Vertrauenspersonen. Im Notfall sehen sie alles – und nur dann.</p></li>
+      </ol>
+    </section>
+
+    <section class="features">
+      <p class="eyebrow">Funktionen</p>
+      <h2>Alles, was Ihre Vorsorge braucht.</h2>
+      <div class="feature">
+        <div class="phone"><img src="img/screen-dokumente.png" alt="Dokumentenliste mit Kategorien" loading="lazy"></div>
+        <div class="text"><h3>Dokumente nach Themen geordnet</h3><p>Versicherungen, AHV, Steuern, Gesundheit, Vollmachten: Jedes Dokument hat seinen Platz. Mit einer Notiz halten Sie fest, wo das Original liegt.</p></div>
+      </div>
+      <div class="feature flip">
+        <div class="phone"><img src="img/screen-assistent.png" alt="Assistent beantwortet eine Frage zur Patientenverfügung" loading="lazy"></div>
+        <div class="text"><h3>Ein Assistent, der zuhört</h3><p>Was gehört in eine Patientenverfügung? Wie schreibe ich ein gültiges Testament? Einfache Antworten zum Schweizer Recht – in klarer Sprache.</p></div>
+      </div>
+      <div class="feature">
+        <div class="phone"><img src="img/screen-vorsorge.png" alt="Vorsorge-Übersicht mit Prozentanzeige" loading="lazy"></div>
+        <div class="text"><h3>Sie sehen, was noch fehlt</h3><p>Eine Übersicht zeigt, wie vollständig Ihre Vorsorge ist. Erinnerungen melden sich, wenn eine Unterlage wieder geprüft werden sollte.</p></div>
+      </div>
+      <div class="feature flip">
+        <div class="phone"><img src="img/screen-notfall.png" alt="Notfall-Ansicht für Angehörige" loading="lazy"></div>
+        <div class="text"><h3>Die Notfall-Ansicht für Angehörige</h3><p>Hausarzt, Dokumente, Wünsche und Kontakte auf einen Blick – nur lesen, nichts ändern. Dazu eine Checkliste: Was ist im Ernstfall zu tun?</p></div>
+      </div>
+      <ul class="extras">
+        <li>Grosse Schrift, grosse Knöpfe</li><li>Deutsch · Français · English · Italiano</li><li>Keine Werbung</li><li>Keine Passwörter nötig</li>
+      </ul>
+    </section>
+
+    <section class="survey-cta">
+      <span class="ic big"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></span>
+      <h2>Ihre Meinung zählt.</h2>
+      <p>Wir entwickeln Lifely im Rahmen einer Projektarbeit an der BFH. Helfen Sie uns mit Ihren Erfahrungen – die Umfrage dauert 6–10 Minuten und ist anonym.</p>
+      <a class="pill primary big" href="umfrage/">Zur Umfrage</a>
+    </section>
+
+    <section class="faq">
+      <p class="eyebrow">Fragen</p>
+      <h2>Häufige Fragen</h2>
+      <details><summary>Was ist Lifely?</summary><p>Lifely ist ein digitaler Vorsorgeordner. Sie legen wichtige Dokumente, Verträge und persönliche Wünsche an einem Ort ab und bestimmen Vertrauenspersonen, die im Ernstfall Zugriff erhalten.</p></details>
+      <details><summary>Ist Lifely schon fertig?</summary><p>Nein. Lifely ist ein Prototyp aus einer Projektarbeit an der Berner Fachhochschule BFH. Sie können die App ausprobieren – bitte nur mit Testdokumenten.</p></details>
+      <details><summary>Wo werden meine Daten gespeichert?</summary><p>Im Prototyp bleiben alle Dokumente und Angaben nur im Browser auf Ihrem Gerät. Es gibt keine Cloud und keinen Server, niemand sonst sieht Ihre Unterlagen.</p></details>
+      <details><summary>Kostet Lifely etwas?</summary><p>Der Prototyp ist kostenlos und ohne Werbung. Ob und was eine spätere Version kosten soll, möchten wir in der Umfrage herausfinden.</p></details>
+      <details><summary>Muss ich etwas installieren?</summary><p>Nein. Lifely läuft im Browser auf Handy, Tablet und Computer. Auf dem Handy können Sie die App zum Startbildschirm hinzufügen.</p></details>
+    </section>
+
+    <section class="final">
+      <h2>Vorsorgen beginnt mit einem Foto.</h2>
+      <div class="cta">
+        <a class="pill primary big" href="app/">App ausprobieren</a>
+        <a class="pill soft big" href="umfrage/">Zur Umfrage</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="./"><img src="icons/logo.svg" alt="">Lifely</a>
+    <p>Projektarbeit an der Berner Fachhochschule BFH · Kontakt: <a href="mailto:michele.roux@students.bfh.ch">michele.roux@students.bfh.ch</a></p>
+    <p>© 2026 Lifely</p>
+  </footer>
 </body>
 </html>

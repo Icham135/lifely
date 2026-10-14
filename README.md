@@ -2,6 +2,14 @@
 
 Studienprojekt EBDS, HS 2026. Eine Web-App (PWA) für ältere Menschen, mit der sie wichtige Unterlagen fotografieren, in Kategorien ablegen und für Vertrauenspersonen im Notfall zugänglich machen können.
 
+## Links (bleiben immer gleich)
+
+- Landingpage: https://icham135.github.io/lifely/
+- App: https://icham135.github.io/lifely/app/
+- Umfrage: https://icham135.github.io/lifely/umfrage/ (Antworten im Google-Formular von learn.brained@gmail.com)
+
+Aktualisieren: Änderungen committen und `git push` – nach ca. 1 Minute online.
+
 ## Starten
 
 Die App braucht einen kleinen lokalen Webserver. Im Terminal im Projektordner:
@@ -10,7 +18,7 @@ Die App braucht einen kleinen lokalen Webserver. Im Terminal im Projektordner:
 ruby -run -e httpd . -p 5173
 ```
 
-Danach im Browser öffnen: http://localhost:5173
+Danach im Browser öffnen: http://localhost:5173 (App unter /app/, Umfrage unter /umfrage/)
 
 ## Funktionen
 
