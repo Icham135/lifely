@@ -91,6 +91,14 @@ window.LF = window.LF || {};
       ],
       outro: 'Gut, Ihre Verträge sind erfasst.' },
 
+    { id: 'dokumente', section: 'dokumente', title: 'Dokumente und Unterlagen', minutes: 2,
+      intro: 'Jetzt wird es einfach: Legen Sie ein, was Ihre Angehörigen später finden sollen. Foto machen oder Datei hochladen, mehr nicht. Passwörter und PINs bitte nie.',
+      steps: [
+        { type: 'list', q: 'Welche Unterlagen möchten Sie ablegen? Nennen Sie einfach kurz, was es ist.', example: 'z. B. Police Hausrat, AHV-Ausweis, Steuererklärung 2025', none: 'Nichts ablegen', explain: 'Sie sehen danach alles im Dossier und können es jederzeit ändern.' },
+        { type: 'upload', q: 'Machen Sie jetzt ein Foto oder laden Sie die Datei hoch. So ist alles an einem Ort.', optional: true },
+      ],
+      outro: 'Super, Ihre Unterlagen sind abgelegt.' },
+
     { id: 'wohnen', section: 'wohnen', title: 'Wohnen', minutes: 6,
       intro: 'Wer weiss, wo Ihre Wohnungsunterlagen sind und wer einen Schlüssel hat, kann im Ernstfall schnell helfen. Wir fragen kurz nach Ihrer Wohnsituation.',
       steps: [
@@ -146,8 +154,8 @@ window.LF = window.LF || {};
     { id: 'kurz', label: 'Schnell', minutes: 15, tagline: 'Für zwischendurch: die fünf wichtigsten Punkte in einer Viertelstunde.',
       topics: ['persoenlich', 'personen', 'patvf', 'vorsorgeauftrag', 'testament'] },
     { id: 'standard', label: 'Standard', minutes: 30, tagline: 'Für einen ruhigen Nachmittag: dazu Versicherungen, Konten, Verträge und Bestattung.',
-      topics: ['persoenlich', 'personen', 'patvf', 'vorsorgeauftrag', 'testament', 'versicherungen', 'konten', 'vertraege', 'bestattung'] },
-    { id: 'gruendlich', label: 'Gründlich', minutes: 60, tagline: 'Wenn Sie sich Zeit nehmen möchten: alle 13 Bereiche, auch Wohnen, Alltag, Wünsche und Digitales.',
-      topics: ['persoenlich', 'personen', 'patvf', 'vorsorgeauftrag', 'testament', 'versicherungen', 'konten', 'vertraege', 'wohnen', 'bestattung', 'alltag', 'wuensche', 'digital'] },
+      topics: ['persoenlich', 'personen', 'patvf', 'vorsorgeauftrag', 'testament', 'versicherungen', 'konten', 'vertraege', 'dokumente', 'bestattung'] },
+    { id: 'gruendlich', label: 'Gründlich', minutes: 60, tagline: 'Wenn Sie sich Zeit nehmen möchten: alle 14 Bereiche, auch Wohnen, Alltag, Wünsche und Digitales.',
+      topics: ['persoenlich', 'personen', 'patvf', 'vorsorgeauftrag', 'testament', 'versicherungen', 'konten', 'vertraege', 'dokumente', 'wohnen', 'bestattung', 'alltag', 'wuensche', 'digital'] },
   ];
 })();

@@ -4,9 +4,9 @@
 .boot p { color: var(--muted); }
 @keyframes bootpulse { 50% { transform: scale(1.07); } }
 
-#tabbar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#tabbar { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 #tabbar button { padding: 8px 4px; }
-#tabbar button span:last-child { white-space: normal; text-align: center; line-height: 1.12; font-size: 13px; letter-spacing: 0; overflow: visible; max-width: 100%; }
+#tabbar button span:last-child { white-space: normal; text-align: center; line-height: 1.12; font-size: 11.5px; letter-spacing: 0; overflow: visible; max-width: 100%; }
 #tabbar button .ic { transition: transform .2s; }
 #tabbar button[aria-current="page"] .ic { transform: translateY(-1px) scale(1.08); }
 body.no-tabs #tabbar { display: none; }
