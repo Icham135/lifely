@@ -1,49 +1,46 @@
-# Lifely – digitaler Vorsorgeordner (Prototyp)
+# Lifely – digitaler Vorsorgeordner
 
-Studienprojekt EBDS, HS 2026. Eine Web-App (PWA) für ältere Menschen, mit der sie wichtige Unterlagen fotografieren, in Kategorien ablegen und für Vertrauenspersonen im Notfall zugänglich machen können.
+Studienprojekt EBDS, HS 2026. Web-App (PWA) für ältere Menschen: geführte Vorsorge, Dossier mit Dokumenten und Angaben, Vertrauenspersonen mit Nur-lesen-Zugang per Key.
 
 ## Links (bleiben immer gleich)
 
 - Landingpage: https://icham135.github.io/lifely/
-- App: https://icham135.github.io/lifely/app/
+- App (Version 3): https://icham135.github.io/lifely/app/
 - Umfrage: https://icham135.github.io/lifely/umfrage/ (Antworten im Google-Formular von learn.brained@gmail.com)
 
-Aktualisieren: Änderungen committen und `git push` – nach ca. 1 Minute online.
+## Aufbau
 
-## Starten
+| Ordner / Datei | Inhalt |
+|---|---|
+| `index.html`, `landing.css`, `landing.js`, `img/` | Landingpage |
+| `umfrage/` | Umfrage |
+| `app-neu/` | Quelle der App Version 3 (Vanilla JS, ohne Build-Schritt, Supabase als Server) |
+| `app/` | ausgelieferte App; wird aus `app-neu/` erzeugt (nicht von Hand ändern) |
+| `server/` | `schema.sql` (Datenbank mit Zugriffsregeln), `functions/` (Edge Functions), `deploy.mjs` (Funktionen hochladen) |
+| `tests/e2e.mjs` | durchgängiger Test mit Playwright |
+| `tools/` | `uebernehmen.sh`, `cache-version.sh`, Screenshots, Formular |
 
-Die App braucht einen kleinen lokalen Webserver. Im Terminal im Projektordner:
+Die App speichert Daten bei Supabase (Konto, Dossier, Dateien). `app-neu/config.js` enthält nur den öffentlichen anon-Schlüssel; geschützt wird über die Zugriffsregeln in der Datenbank. Nur mit Testdokumenten verwenden (Prototyp).
+
+## Lokal starten
 
 ```bash
-ruby -run -e httpd . -p 5173
+ruby -run -e httpd . -p 5215
 ```
 
-Danach im Browser öffnen: http://localhost:5173 (App unter /app/, Umfrage unter /umfrage/)
+App: http://localhost:5215/app-neu/index.html, Landingpage: http://localhost:5215/
 
-## Funktionen
+Test: `LF_URL=http://localhost:5215/app-neu/index.html node tests/e2e.mjs`
 
-- Ladescreen mit Logo
-- Anmeldung mit Google oder per E-Mail mit 6-stelligem Code (simuliert, der Code wird im Demo-Modus angezeigt)
-- Startseite mit grossen Kacheln
-- Dokument fotografieren oder hochladen (Bild/PDF), dann Kategorie wählen (2 Schritte)
-- Dokumentenliste mit Filter nach Kategorie, Detailansicht, Löschen
-- Vertrauenspersonen verwalten (Konzept: Notfallzugang mit 7 Tagen Wartefrist)
-- Notfall-Ansicht: so sehen Angehörige die Unterlagen (nur lesen)
-- Einstellungen: Schriftgrösse (Normal / Gross / Sehr gross), Abmelden, alle Daten löschen
+## Aktualisieren
 
-## Technik und Grenzen des Prototyps
+1. Änderungen in `app-neu/` machen.
+2. `tools/cache-version.sh` (setzt `?v=` auf Datum und Stunde, damit Browser nichts Altes zeigen).
+3. `tools/uebernehmen.sh` (ersetzt `app/` durch `app-neu/` und prüft die Verweise).
+4. Committen und `git push`; nach ca. 1 Minute online.
 
-- Reines HTML, CSS und JavaScript, ohne Frameworks und ohne Build-Schritt
-- Daten nur lokal im Browser (IndexedDB für Dokumente, localStorage für Konto und Kontakte)
-- Anmeldung und Notfallzugang sind simuliert; die echte Umsetzung (Verschlüsselung, Server in der Schweiz, DSG) beschreibt das Sicherheitskonzept in der Dokumentation
-- Nur mit Testdokumenten verwenden
+## Server (`server/`)
 
-## Dateien
+`schema.sql` im Supabase-SQL-Editor ausführen (idempotent). Funktionen: `node server/deploy.mjs` (Token über die Umgebungsvariable `LIFELY_TOKEN` oder eine Datei ausserhalb des Repos).
 
-| Datei | Inhalt |
-|---|---|
-| `index.html` | Grundgerüst |
-| `styles.css` | Gestaltung (seniorengerecht: grosse Schrift, hohe Kontraste, grosse Buttons) |
-| `app.js` | Logik und alle Bildschirme |
-| `manifest.json`, `sw.js` | PWA: installierbar, Offline-Cache |
-| `icons/logo.svg` | Logo |
+**Der Zugangstoken (Access Token) gehört nie ins Repo**, nie in eine Webseite und nie in den Chat.

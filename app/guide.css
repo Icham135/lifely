@@ -1,0 +1,60 @@
+/* Lifely – Geführte Vorsorge (Startseite und Chat) */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+body.no-tabs #tabbar { display: none !important; }
+body.no-tabs.has-tabs #app, body.no-tabs #app { padding-bottom: 0; }
+
+/* Startseite */
+.g-mode { display: grid; gap: 4px; margin-top: 0; padding: 20px; transition: border-color .15s, transform .1s; }
+.g-mode:active { transform: scale(.99); }
+.g-mode .qt { margin: 2px 0 0; }
+.g-min { font-size: .8rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--teal7); }
+.g-tl { color: var(--ink); font-size: .92rem; margin-top: 6px; }
+.g-cont { display: grid; gap: 6px; background: var(--teal9); }
+.g-cont .qt { margin: 0; }
+.g-cont .btn { margin-top: 8px; pointer-events: none; }
+.g-prog { margin-top: 12px; }
+.g-done .chips { margin-top: 4px; }
+
+/* Chat */
+.g-run { padding-bottom: 28px; }
+.g-head { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; margin: 0 -18px; padding: calc(6px + env(safe-area-inset-top)) 18px 8px; background: rgba(250,247,241,.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.g-head .back { flex: none; padding-right: 10px; }
+.g-ht { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.g-ht b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.g-ht .bar { margin: 2px 0; height: 8px; }
+.g-ht .bar i { transition: width .5s ease; }
+.g-ht small { color: var(--muted); font-size: .8rem; }
+.g-chat { display: grid; gap: 10px; padding: 16px 0 8px; }
+.g-b { max-width: 90%; padding: 12px 16px; border-radius: 20px; overflow-wrap: anywhere; }
+.g-b.new { animation: gb .3s ease both; }
+@keyframes gb { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+.g-b.bot { background: var(--white); border: 2px solid var(--line); border-bottom-left-radius: 6px; justify-self: start; }
+.g-b.me { background: var(--teal7); color: #fff; border-bottom-right-radius: 6px; justify-self: end; }
+.g-b.ok { justify-self: start; background: var(--ok1); color: var(--ok); font-size: .88rem; border-radius: 14px; padding: 8px 14px; max-width: 100%; }
+.g-b.ok b { color: var(--ink); }
+.g-see { min-height: 40px; color: var(--ok); font-size: .88rem; }
+.g-bt { display: block; font-size: 1.1rem; margin-bottom: 4px; color: var(--teal9); }
+.g-hint { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line); font-size: .88rem; color: var(--muted); }
+.g-typing { display: flex; gap: 6px; align-items: center; min-height: 46px; }
+.g-typing i { width: 9px; height: 9px; border-radius: 50%; background: var(--teal5); animation: gd 1s infinite ease-in-out; }
+.g-typing i:nth-child(2) { animation-delay: .15s; } .g-typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes gd { 0%, 80%, 100% { opacity: .3; transform: none; } 40% { opacity: 1; transform: translateY(-4px); } }
+
+/* Eingabezone */
+.g-zone { padding-top: 8px; min-height: 40px; }
+.g-zone.g-pop { animation: gb .3s ease both; }
+.g-in { display: grid; gap: 12px; padding: 14px; background: var(--teal0); border: 2px solid var(--teal1); border-radius: 24px; }
+.g-yn, .g-btns { display: grid; gap: 10px; }
+.g-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.g-chip { min-height: 52px; padding: 10px 18px; border-radius: 999px; border: 2px solid var(--teal5); background: var(--white); font-weight: 800; text-align: left; max-width: 100%; transition: background .15s; }
+.g-chip:hover, .g-chip:active { background: var(--teal1); }
+.g-tools { display: flex; flex-wrap: wrap; gap: 4px 18px; justify-content: center; margin-top: 4px; }
+.g-tools .link { font-size: .92rem; color: var(--muted); font-weight: 700; }
+.g-ask { display: grid; gap: 10px; margin-top: 8px; }
+.g-ent { display: grid; gap: 10px; padding: 14px; background: var(--white); border: 2px solid var(--line); border-radius: 20px; }
+.g-ents { display: grid; gap: 12px; }
+.g-msg { font-weight: 700; color: var(--coralInk); }
+.g-qq .g-btns { margin-top: 10px; }
+select.in { appearance: auto; }
+@media (max-width: 360px) { .g-head { margin: 0 -12px; padding-left: 12px; padding-right: 12px; } .g-b { max-width: 96%; } }
+.g-cont .qt, .g-tl, .g-mode .qt { overflow-wrap: anywhere; hyphens: auto; }

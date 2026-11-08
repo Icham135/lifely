@@ -1,0 +1,4 @@
+/* Lifely – Feinschliff, wird zuletzt geladen: grosse Tippflächen überall (mind. 48 px). */
+button, .btn, a.btn, .btn.small, button.btn, a.row, button.row, .g-see, a[href^="tel:"], [role="button"] { min-height: 48px !important; }
+.g-see, a[href^="tel:"].btn, .btn.small { display: inline-flex; align-items: center; justify-content: center; }
+.sr, .tdots i, .dot { min-height: 0 !important; }

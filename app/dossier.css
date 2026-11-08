@@ -1,0 +1,27 @@
+/* Lifely – Mein Dossier */
+.dossier .dprog { margin-top: 4px; }
+.dossier .dprog .spread b { font-size: 1.05rem; }
+.dossier .dlist .row { min-height: 76px; }
+.dossier .dlist .row .chip { font-size: .84rem; padding: 7px 13px; }
+.dossier .dblank p { color: var(--sunInk); }
+.dedit .top { gap: 8px; }
+.dedit .saved { font-size: .85rem; font-weight: 800; color: var(--ok); opacity: 0; transition: opacity .3s; text-align: right; }
+.dedit .saved.on { opacity: 1; }
+.dedit .seg button { min-height: 52px; font-size: .95rem; }
+.dedit select.in { appearance: auto; }
+.dedit .in.bad { border-color: var(--coral); box-shadow: 0 0 0 4px var(--coral1); }
+.dedit .dfiles { display: grid; gap: 8px; }
+.dedit .dcards { margin-top: 4px; }
+.dedit .dcard { margin-top: 0; }
+.dedit .dcard .m b { font-size: 1.05rem; }
+.dedit .dnote { margin-top: 10px; color: #33403d; white-space: pre-line; }
+.dedit .dacts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.dedit .dacts .btn { flex: 1 1 auto; min-height: 52px; }
+.dedit .dform h2 { margin-top: 0; }
+.dedit .dform .bottom { margin-top: 20px; }
+.dedit .dno { margin-top: 0; }
+.dedit .opt { font-weight: 400; }
+.dedit .mini-ic { width: 16px; height: 16px; vertical-align: -3px; }
+.dedit .switch { margin-top: 18px; }
+@media (max-width: 360px) { .dedit .dacts .btn { flex-basis: 100%; } .dedit .saved { font-size: .78rem; } }
+.dedit .saved.bad { color: var(--coralInk); }

@@ -1,0 +1,42 @@
+/* Lifely – Anmeldung, Sprache, Key, Einrichten */
+.auth-hero { text-align: center; padding: 10px 0 18px; }
+.authlogo { width: 76px; height: 76px; border-radius: 22px; display: block; margin: 0 auto 12px; box-shadow: 0 8px 22px rgba(10,63,58,.18); }
+.authlogo.big { width: 96px; height: 96px; border-radius: 28px; margin-bottom: 16px; }
+.auth-hero h1 { margin-top: 4px; }
+.auth-hero .lead { margin-bottom: 4px; }
+.auth h1, .auth .lead { animation: in .3s ease both; }
+.auth-form { margin-top: 18px; animation: in .3s .06s ease both; }
+.auth .seg { animation: in .3s .03s ease both; }
+.auth-key, .auth > .fine { animation: in .3s .12s ease both; }
+.auth-key { margin-top: 26px; }
+.auth .center .link { margin-top: 0; }
+.auth .choice { animation: in .3s ease both; }
+.auth .choice:nth-child(2) { animation-delay: .05s; } .auth .choice:nth-child(3) { animation-delay: .1s; } .auth .choice:nth-child(4) { animation-delay: .15s; }
+.auth .choice .ic { color: var(--teal7); flex: none; }
+.pwrap { position: relative; display: flex; }
+.pwrap .in { padding-right: 112px; }
+.pwshow { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--teal0); color: var(--teal9); font-weight: 800; font-size: .88rem; }
+.auth-err { background: var(--coral1); color: var(--coralInk); border-radius: 16px; padding: 12px 15px; font-weight: 700; font-size: .95rem; animation: in .2s ease both; }
+.keyin { font-size: 1.15rem; font-weight: 800; letter-spacing: .04em; text-align: center; min-height: 64px; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.auth > .note { margin-top: 22px; }
+.auth-prev p { margin-top: 6px; }
+.auth-load { min-height: 80vh; display: grid; place-content: center; justify-items: center; gap: 4px; text-align: center; }
+.auth-load .authlogo { animation: authbreathe 2.4s ease-in-out infinite; }
+.auth-dots { display: flex; gap: 8px; margin-top: 18px; }
+.auth-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--teal5); animation: authdot 1.2s ease-in-out infinite; }
+.auth-dots i:nth-child(2) { animation-delay: .15s; } .auth-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes authdot { 0%, 80%, 100% { opacity: .25; transform: scale(.8); } 40% { opacity: 1; transform: scale(1.15); } }
+@keyframes authbreathe { 50% { transform: scale(1.05); } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 360px) { .authlogo { width: 64px; height: 64px; } .pwrap .in { padding-right: 100px; } .keyin { font-size: 1rem; letter-spacing: .02em; } }
+:root[data-size="sehr-gross"] .keyin { font-size: 1rem; letter-spacing: 0; padding-left: 8px; padding-right: 8px; }
+:root[data-size="gross"] .keyin { font-size: 1.05rem; letter-spacing: .02em; }
+:root[data-size="sehr-gross"] .pwrap .in { padding-right: 16px; padding-bottom: 66px; }
+:root[data-size="sehr-gross"] .pwshow { top: auto; bottom: 8px; transform: none; right: 8px; }
+@media (max-width: 360px) { .auth .seg button { font-size: .85rem; } .auth .seg button[aria-pressed="true"]::before { content: none; } }
+.auth .spread.left { align-items: flex-start; } .auth .spread.left .ic { margin-top: 2px; }
+
+/* Hinweis bei langer Wartezeit */
+.auth-slow { margin-top: 20px; text-align: center; display: grid; gap: 12px; }
+.auth-slow p { font-weight: 700; }
+.auth-load .auth-slow { max-width: 320px; margin-left: auto; margin-right: auto; }

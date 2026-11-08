@@ -1,0 +1,27 @@
+/* Lifely – Profil */
+.phead { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; min-width: 0; }
+.phead .m { min-width: 0; }
+.phead h1 { margin: 0; overflow-wrap: anywhere; }
+.phead small { color: var(--muted); overflow-wrap: anywhere; }
+.ico.av.big { width: 64px; height: 64px; font-size: 1.6rem; background: var(--teal7); color: #fff; }
+.keyform { display: grid; gap: 14px; }
+.keyfresh { margin-top: 14px; animation: in .3s ease both; }
+.keybig { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 8px; margin: 12px 0 16px; padding: 16px 8px; background: #fff; border: 2px solid #f4dc9c; border-radius: 18px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-weight: 800; font-size: 1.5rem; letter-spacing: .06em; color: var(--ink); user-select: all; -webkit-user-select: all; }
+.keybig i { font-style: normal; color: var(--muted); }
+.keyfresh .note { margin-top: 14px; }
+.keyh { font-size: 1rem; margin: 22px 0 6px; font-weight: 800; }
+.keyrow { margin-top: 0; display: grid; gap: 4px; }
+.keyrow small { color: var(--muted); }
+.keyrow.off { background: #f4f1ea; }
+.keyrow .btn { margin-top: 8px; width: auto; justify-self: start; }
+.keyhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.keyhead b { overflow-wrap: anywhere; }
+.pfoot { text-align: center; margin-top: 22px; }
+.ph { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.ph h3 { margin: 0; font-size: 1.05rem; }
+.profile .stack .choice, .sheet .choice { width: 100%; }
+@media (max-width: 360px) { .keybig { font-size: 1.2rem; letter-spacing: .02em; } }
+:root[data-size="sehr-gross"] .keybig { font-size: 1.25rem; }
+@media (prefers-reduced-motion: reduce) { .keyfresh { animation: none; } }
+.keybig span { white-space: nowrap; }
+.keybig span:not(:last-child)::after { content: "–"; color: var(--muted); margin-left: 6px; }

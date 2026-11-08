@@ -1,0 +1,33 @@
+/* Lifely – Ansicht mit Key (nur lesen) */
+.vw .vw-hero { margin-top: 10px; }
+.vw .vw-hero p { color: #e4f1ee; margin-top: 8px; }
+.vw .vw-hero .vw-stand { font-size: .88rem; color: #cfe6e1; }
+.vw .vw-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--sun1); color: var(--sunInk); }
+.vw .vw-badge .ic { width: 16px; height: 16px; }
+.vw .vw-card { animation: vwin .35s ease both; }
+@keyframes vwin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.vw .vw-head { justify-content: flex-start; margin-bottom: 10px; flex-wrap: wrap; }
+.vw .vw-head h2 { margin: 0; flex: 1 1 9em; min-width: 0; font-size: 1.1rem; overflow-wrap: break-word; hyphens: auto; }
+.vw .vw-head .chip { margin-left: auto; }
+.vw .card.dark .vw-badge .ic { color: var(--sunInk); }
+.vw .vw-line { display: grid; gap: 2px; padding: 9px 0; border-top: 1px solid var(--line); }
+.vw .vw-line:first-of-type { border-top: 0; }
+.vw .vw-k { font-size: .82rem; font-weight: 800; color: var(--muted); }
+.vw .vw-v { white-space: pre-line; overflow-wrap: anywhere; }
+.vw .vw-item { padding: 12px 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.vw .vw-item:first-of-type { border-top: 0; padding-top: 4px; }
+.vw .vw-sub { color: var(--muted); font-size: .88rem; }
+.vw .vw-note { margin-top: 4px; white-space: pre-line; }
+.vw .vw-call { margin-top: 10px; width: 100%; max-width: 100%; white-space: normal; }
+.vw .vw-files { margin-top: 10px; }
+.vw .vw-empty summary { font-weight: 800; min-height: 48px; display: flex; align-items: center; cursor: pointer; }
+.vw .vw-ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; }
+.vw .vw-ul li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); color: var(--muted); }
+.vw .vw-ul .chip { background: #ece9e1; color: #4d5753; }
+.vw .vw-end { margin-top: 26px; }
+@media print {
+  #tabbar, .vw .btn, .vw .vw-end, .vw .vw-call { display: none !important; }
+  .vw .card { box-shadow: none !important; break-inside: avoid; animation: none; border-color: #bbb; }
+  .vw .card.dark { background: #fff; color: #000; } .vw .card.dark h1, .vw .card.dark p { color: #000; }
+  .vw .vw-empty[open], .vw .vw-empty { display: block; }
+}

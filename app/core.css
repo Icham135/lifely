@@ -1,0 +1,20 @@
+/* Lifely – Kern-Gestaltung: Start, Tableiste (3 Bereiche), sanfte Übergänge. Rest steht in base.css und den Bausteinen. */
+.boot { min-height: 70vh; display: grid; place-items: center; align-content: center; gap: 16px; text-align: center; padding: 20px; }
+.boot img { width: 84px; height: 84px; border-radius: 24px; box-shadow: 0 14px 34px rgba(8, 63, 57, .2); animation: bootpulse 1.8s ease-in-out infinite; }
+.boot p { color: var(--muted); }
+@keyframes bootpulse { 50% { transform: scale(1.07); } }
+
+#tabbar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#tabbar button { padding: 8px 4px; }
+#tabbar button span:last-child { white-space: normal; text-align: center; line-height: 1.12; font-size: 13px; letter-spacing: 0; overflow: visible; max-width: 100%; }
+#tabbar button .ic { transition: transform .2s; }
+#tabbar button[aria-current="page"] .ic { transform: translateY(-1px) scale(1.08); }
+body.no-tabs #tabbar { display: none; }
+body.no-tabs.has-tabs #app { padding-bottom: 28px; }
+
+@media (min-width: 900px) { #tabbar { width: min(520px, calc(100% - 24px)); } }
+a.btn { text-decoration: none; }
+
+/* Letzter Inhalt liegt frei über der schwebenden Tableiste (auch bei 320 px und «Sehr gross», wenn die Beschriftungen umbrechen) */
+body.has-tabs #app { padding-bottom: calc(var(--tab) + 88px + env(safe-area-inset-bottom)); }
+body.no-tabs.has-tabs #app { padding-bottom: 28px; }

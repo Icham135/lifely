@@ -1,0 +1,2 @@
+/* Lifely: Server-Verbindung. Der anon-Schlüssel ist öffentlich vorgesehen, geschützt wird über Zugriffsregeln in der Datenbank. */
+window.LF_CONFIG = { url: 'https://qvhrfbjhjkjcjnotyybj.supabase.co', anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2aHJmYmpoamtqY2pub3R5eWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxMjg0NTYsImV4cCI6MjEwOTcwNDQ1Nn0.i8nRpRa7cDNZIkgoobe7qiN_ziyHa82lVgO3p7vXJGk' };

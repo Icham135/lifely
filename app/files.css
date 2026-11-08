@@ -1,0 +1,46 @@
+/* Lifely – Fotos und PDFs */
+.fl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 124px), 1fr)); gap: 12px; margin-top: 12px; }
+.fl-item { display: grid; gap: 6px; min-width: 0; animation: flin .25s ease both; }
+@keyframes flin { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+.fl-th { position: relative; display: grid; place-items: center; align-content: center; gap: 6px; width: 100%; aspect-ratio: 1; min-height: 96px; padding: 8px; overflow: hidden; border-radius: 18px; border: 2px solid var(--line); background: var(--white); color: var(--teal7); text-align: center; }
+button.fl-th:hover { border-color: var(--teal5); }
+.fl-th img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .3s ease; }
+.fl-th img.on { opacity: 1; }
+.fl-th.is-img .fl-name { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 6px 5px; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.6)); }
+.fl-th.is-img.skel .fl-name, .fl-th.is-img.broken .fl-name { position: static; padding: 0; color: var(--muted); background: none; }
+.fl-th.is-img:not(.skel):not(.broken) .fl-name { z-index: 1; }
+.fl-name { font-size: .74rem; font-weight: 700; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fl-th.is-pdf .fl-name, .fl-load .fl-name { color: var(--ink); }
+.fl-th .ic { width: 34px; height: 34px; }
+.fl-th.broken { color: var(--muted); }
+.skel, .fl-ld { background: linear-gradient(100deg, #efebe2 30%, #f8f5ee 50%, #efebe2 70%) 0 0 / 200% 100%; animation: flsk 1.3s linear infinite; }
+@keyframes flsk { to { background-position: -200% 0; } }
+.fl-th.skel { color: #b8c2bf; }
+.fl-load { border-style: dashed; }
+.fl-load .spin { animation: flspin 1s linear infinite; }
+@keyframes flspin { to { transform: rotate(360deg); } }
+.fl-del { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 52px; padding: 6px 8px; border: 0; border-radius: 16px; background: var(--coral1); color: var(--coralInk); font-weight: 800; font-size: .86rem; }
+.fl-del .ic { width: 20px; height: 20px; }
+.fl-add { display: grid; gap: 10px; margin-top: 14px; }
+.fl-btn { cursor: pointer; }
+.fl-btn:focus-within, .fl-in:focus-visible + .fl-btn { outline: 3px solid var(--coral); outline-offset: 3px; }
+.fl-in { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.fl-in:focus-visible + label.fl-btn { outline: 3px solid var(--coral); outline-offset: 3px; }
+.fl-ro { margin-top: 8px; }
+
+/* Vollbild */
+body.fl-lock { overflow: hidden; }
+.fl-full { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; background: rgba(8,20,18,.96); color: #fff; opacity: 0; transition: opacity .2s ease; padding-top: env(safe-area-inset-top); }
+.fl-full.on { opacity: 1; }
+.fl-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; }
+.fl-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fl-bar .btn { flex: none; margin: 0; }
+.fl-body { flex: 1; min-height: 0; display: grid; place-items: center; padding: 8px 12px calc(16px + env(safe-area-inset-bottom)); overflow: auto; }
+.fl-body img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; opacity: 0; transition: opacity .3s ease; }
+.fl-body img.on { opacity: 1; }
+.fl-ld { width: min(80vw, 360px); aspect-ratio: 3/4; border-radius: 16px; opacity: .25; }
+.fl-pdf { display: grid; justify-items: center; gap: 14px; text-align: center; max-width: 380px; width: 100%; }
+.fl-pdf .ic { width: 72px; height: 72px; color: #cfe6e1; }
+.fl-pdf p { overflow-wrap: anywhere; }
+.fl-pdf .tiny { color: #cfe6e1; }
+.fl-err { color: #fff; text-align: center; }

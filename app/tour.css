@@ -1,0 +1,36 @@
+/* Rundgang: Scheinwerfer + Erklärkarte */
+body.touring #app { padding-bottom: 80vh; }
+#tour { position: fixed; inset: 0; z-index: 70; }
+#tour .tspot { position: fixed; border-radius: 26px; box-shadow: 0 0 0 9999px rgba(8,30,27,.74); pointer-events: none; transition: left .3s cubic-bezier(.2,.8,.2,1), top .3s cubic-bezier(.2,.8,.2,1), width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1); }
+#tour .tspot::after { content: ""; position: absolute; inset: -4px; border-radius: 30px; border: 3px solid var(--sun); animation: tring 1.8s ease-in-out infinite; }
+@keyframes tring { 50% { inset: -9px; opacity: .35; } }
+#tour .ttip { position: fixed; background: var(--paper); border-radius: 26px; padding: 18px; font-size: 1rem; line-height: 1.45; box-shadow: 0 20px 50px rgba(0,0,0,.35); overflow-y: auto; overscroll-behavior: contain; transition: left .3s cubic-bezier(.2,.8,.2,1), top .3s cubic-bezier(.2,.8,.2,1); }
+#tour .ttip.swap { animation: tswap .25s ease both; }
+@keyframes tswap { from { opacity: 0; } to { opacity: 1; } }
+#tour.noanim .tspot, #tour.noanim .ttip { transition: none; }
+#tour.center { background: rgba(8,30,27,.74); }
+#tour.center .tspot { left: 50%; top: 50%; width: 0; height: 0; box-shadow: none; }
+#tour.center .tspot::after { display: none; }
+#tour.center .ttip { left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; }
+#tour .tlogo { width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 10px; display: block; }
+#tour .tstep { font-size: .72rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--teal7); }
+#tour h2 { margin: 4px 0 6px; font-size: 1.2rem; }
+#tour .tbody { color: #33403d; }
+#tour .tdots { display: flex; gap: 5px; justify-content: center; margin: 14px 0 12px; }
+#tour .tdots i { width: 8px; height: 8px; border-radius: 4px; background: var(--line); transition: width .25s, background .25s; }
+#tour .tdots i.on { width: 22px; background: var(--teal7); }
+#tour .tbtns { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; }
+#tour .tbtns.one { grid-template-columns: 1fr; }
+#tour .tbtns .btn { min-height: 52px; font-size: .95rem; padding: 10px 12px; }
+#tour .tskip { display: block; margin: 6px auto 0; min-height: 44px; font-size: .88rem; background: none; border: 0; }
+@media (prefers-reduced-motion: reduce) {
+  #tour .tspot, #tour .ttip { transition: none; }
+  #tour .tspot::after, #tour .ttip.swap { animation: none; }
+}
+#tour .ttip.tight { padding: 12px 14px; }
+#tour .ttip.tight .tstep, #tour .ttip.tight .tdots { display: none; }
+#tour .ttip.tight { font-size: 17px; line-height: 1.38; }
+#tour .ttip.tight h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); margin: 0; }
+#tour .ttip.tight .tdots { display: none; }
+#tour .ttip.tight .tskip { min-height: 40px; margin-top: 0; }
+#tour .ttip.tight .tbtns .btn { min-height: 52px; }
