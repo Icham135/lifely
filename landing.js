@@ -91,7 +91,7 @@ $$('.count').forEach(b => {
 });
 // Fortschrittsring
 const ring = $('#ring');
-ring.closest('.rv').addEventListener('seen', () => countUp(ring, 62, v => { ring.style.setProperty('--p', v); $('#ringNum').textContent = v + ' %'; }, 1800));
+ring.closest('.rv').addEventListener('seen', () => countUp(ring, 86, v => { ring.style.setProperty('--p', v); $('#ringNum').textContent = v + ' %'; }, 1800));
 
 // Fragen: weich auf- und zuklappen
 $$('details').forEach(d => {

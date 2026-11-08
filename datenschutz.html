@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f1ea">
+  <title>Datenschutzerklärung – Lifely</title>
+  <meta name="description" content="Datenschutzerklärung des Studienprojekts Lifely: welche Daten bearbeitet werden, wo sie liegen und wer sie sieht.">
+  <link rel="icon" href="icons/logo.svg">
+  <style>
+    @font-face { font-family: 'Figtree'; src: url('fonts/figtree-latin.woff2') format('woff2'); font-weight: 400 800; font-display: swap; }
+    :root { --paper: #f4f1ea; --ink: #1c2321; --teal: #2d6a5f; --line: #ddd8cc; color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Figtree', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; font-size: 18px; }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+    a { color: var(--teal); }
+    h1 { font-size: 2rem; line-height: 1.15; margin: 8px 0 8px; }
+    h2 { font-size: 1.3rem; margin: 36px 0 8px; }
+    p, li { margin: 0 0 12px; }
+    ul { padding-left: 22px; }
+    .back { display: inline-block; margin-bottom: 8px; font-weight: 700; text-decoration: none; }
+    .box { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 16px; background: #fff; border-radius: 12px; overflow: hidden; }
+    th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    th { background: #ebe7dc; }
+    .tbl { overflow-x: auto; }
+    .tiny { font-size: 15px; opacity: .8; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #141917; --ink: #eef1ee; --teal: #7fc4b5; --line: #2c3532; } .box, table { background: #1c2321; } th { background: #232c29; } }
+  </style>
+</head>
+<body>
+<main>
+  <a class="back" href="./">← Zur Startseite</a>
+  <h1>Datenschutzerklärung</h1>
+  <p class="tiny">Stand: 9. November 2026 · gilt für die Webseite und die App «Lifely» (Prototyp)</p>
+
+  <div class="box"><b>Das Wichtigste in Kürze</b>
+    <ul>
+      <li>Ihre Angaben liegen verschlüsselt bei Supabase auf einem Server in der Schweiz (Zürich).</li>
+      <li>Andere sehen Ihr Dossier nur, wenn Sie einen Key weitergeben. Mit dem Key kann man nur lesen.</li>
+      <li><b>Die Antworten der Geführten Vorsorge erzeugt ein KI-Dienst in den USA (Groq).</b> Dorthin gelangt der Text Ihres Gesprächs, aber keine Fotos oder PDFs.</li>
+      <li>Passwörter, PINs und Kontonummern gehören nicht ins Dossier und werden von Lifely nie verlangt.</li>
+      <li>Sie können Ihr Konto samt allen Daten jederzeit selbst löschen.</li>
+    </ul></div>
+
+  <h2>1. Wer ist verantwortlich?</h2>
+  <p>Lifely ist ein Prototyp aus einer Projektarbeit von Studierenden der Berner Fachhochschule BFH (Anne-Line Joye, Ilies Chamakh, Michèle Roux). Es ist kein kommerzielles Angebot. Verantwortlich im Sinne des Schweizer Datenschutzgesetzes (nDSG) ist das Projektteam.</p>
+  <p>Kontakt für Fragen und Auskunftsbegehren: <a href="mailto:michele.roux@students.bfh.ch">michele.roux@students.bfh.ch</a></p>
+
+  <h2>2. Welche Daten bearbeiten wir?</h2>
+  <ul>
+    <li><b>Konto:</b> E-Mail-Adresse und Passwort. Das Passwort wird nie im Klartext gespeichert, sondern verschlüsselt (gehasht) durch den Anmeldedienst von Supabase.</li>
+    <li><b>Ihr Dossier:</b> alles, was Sie selbst eintragen, zum Beispiel Name, Personen, Hinweise zu Versicherungen, Testament, Wünsche, sowie hochgeladene Fotos und PDFs.</li>
+    <li><b>Gespräch der Geführten Vorsorge:</b> Ihre Antworten und der Verlauf, damit Sie später weitermachen können.</li>
+    <li><b>Keys:</b> Für jeden Key speichern wir nur einen Fingerabdruck (SHA-256-Hash), nie den Key selbst. Den Key sehen nur Sie bei der Erstellung.</li>
+    <li><b>Einstellungen:</b> Sprache, Schriftgrösse, Ihr Vorname und Ihre Zustimmung zu diesem Text.</li>
+    <li><b>Technische Daten:</b> Beim Aufruf einer Seite sehen die Hosting-Anbieter Ihre IP-Adresse und Angaben zu Ihrem Gerät (siehe Punkt 4).</li>
+  </ul>
+  <p>Wir bearbeiten <b>keine</b> Passwörter oder PINs für Ihre Konten und setzen <b>keine</b> Werbe-, Analyse- oder Tracking-Dienste ein. Es gibt keine Cookies zu Werbezwecken. Die App speichert Sprache, Schriftgrösse und die Anmeldung im lokalen Speicher Ihres Browsers (nötig für den Betrieb).</p>
+
+  <h2>3. Wofür verwenden wir die Daten?</h2>
+  <p>Nur, um Ihnen die Funktionen der App zu bieten: Anmeldung, Speichern Ihres Dossiers, Geführte Vorsorge, Zugriff über einen Key. Wir verkaufen keine Daten, betreiben kein Profiling und geben nichts zu Werbezwecken weiter.</p>
+
+  <h2>4. Wer erhält Daten? (Dienstleister und Ausland)</h2>
+  <div class="tbl"><table>
+    <tr><th>Dienst</th><th>Zweck</th><th>Standort</th><th>Daten</th></tr>
+    <tr><td>Supabase</td><td>Anmeldung, Datenbank, Dateispeicher, Server-Funktionen</td><td>Schweiz (Zürich); Anbieterfirma mit Sitz in den USA</td><td>Konto, Dossier, Dateien, Keys (nur Hash)</td></tr>
+    <tr><td><b>Groq</b></td><td><b>KI-Antworten in der Geführten Vorsorge</b></td><td><b>USA</b></td><td>Text des Gesprächs (Ihre Antworten und Fragen, Thema, Sprache). Keine Fotos, keine PDFs, keine E-Mail-Adresse.</td></tr>
+    <tr><td>GitHub Pages</td><td>Auslieferung der Webseite und der App-Dateien</td><td>USA</td><td>IP-Adresse und Gerätedaten beim Aufruf</td></tr>
+    <tr><td>jsDelivr (CDN)</td><td>Auslieferung eines Programmbausteins (Supabase-Bibliothek)</td><td>weltweit verteilt</td><td>IP-Adresse beim Aufruf</td></tr>
+  </table></div>
+  <p><b>KI und USA:</b> Wenn Sie in der Geführten Vorsorge schreiben, schickt unser Server in Zürich den Text an den KI-Dienst Groq in den USA. Dort entsteht die Antwort. Das Land hat ein anderes Datenschutzniveau als die Schweiz. Wir schicken deshalb so wenig wie möglich und nichts, womit Sie direkt erkannt werden (keine E-Mail-Adresse, keine Dateien). <b>Bitte schreiben Sie im Gespräch keine besonders heiklen Angaben, Passwörter oder Kontonummern.</b> Wie lange und unter welchen Bedingungen Groq Daten verarbeitet, bestimmt Groq in den eigenen Bedingungen. Wer das nicht möchte, kann das Dossier ohne Gespräch direkt unter «Mein Dossier» ausfüllen. Dann geht nichts an die KI.</p>
+  <p>Die Übermittlung ins Ausland stützt sich auf Ihre Einwilligung, die Sie beim Einrichten geben, und auf die vertraglichen Zusicherungen der Anbieter. Mit den Dienstleistern bestehen die üblichen Auftragsbearbeitungsbedingungen der Anbieter. Die Prüfung dieser Verträge durch eine Fachperson steht für ein echtes Angebot noch aus.</p>
+
+  <h2>5. Wer sieht mein Dossier?</h2>
+  <p>Nur Sie, solange Sie keinen Key weitergeben. Wer Ihren Key hat, kann Ihr Dossier lesen (nicht ändern). Fotos und PDFs werden dabei über zeitlich begrenzte Links gezeigt. Sie können Keys jederzeit im Profil widerrufen. Geben Sie Keys nur Personen, denen Sie vertrauen. Das Projektteam hat technisch Zugriff auf die Datenbank, liest Ihre Inhalte aber nicht und greift nur für den Betrieb oder bei Fehlern darauf zu.</p>
+
+  <h2>6. Wie lange speichern wir Daten?</h2>
+  <p>Bis Sie Ihr Konto löschen oder das Projekt beendet wird. Mit «Konto löschen» im Profil entfernen wir Ihr Dossier, Ihre Dateien und Ihre Keys.</p>
+
+  <h2>7. Sicherheit</h2>
+  <p>Die Verbindung ist verschlüsselt (HTTPS). Jedes Konto sieht auf dem Server nur seine eigenen Daten (Zugriffsregeln auf Datenbank und Dateispeicher). Fotos und PDFs liegen in einem privaten Speicher. Trotzdem gibt es keine absolute Sicherheit. Lifely ist ein Prototyp: <b>Bitte tragen Sie nur Testdaten ein.</b></p>
+
+  <h2>8. Ihre Rechte</h2>
+  <p>Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten sowie darauf, Ihre Einwilligung zu widerrufen. Vieles können Sie selbst in der App erledigen (ändern, Keys widerrufen, Konto löschen). Für alles andere schreiben Sie an die oben genannte Adresse. Sie können sich zudem beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) beschweren.</p>
+
+  <h2>9. Änderungen</h2>
+  <p>Wir können diese Erklärung anpassen, zum Beispiel wenn sich die App ändert. Es gilt die jeweils hier veröffentlichte Fassung.</p>
+
+  <p class="tiny">Diese Erklärung ist eine einfache Beschreibung des Prototyps und keine Rechtsberatung.</p>
+</main>
+</body>
+</html>
