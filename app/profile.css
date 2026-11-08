@@ -6,7 +6,7 @@
 .ico.av.big { width: 64px; height: 64px; font-size: 1.6rem; background: var(--teal7); color: #fff; }
 .keyform { display: grid; gap: 14px; }
 .keyfresh { margin-top: 14px; animation: in .3s ease both; }
-.keybig { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 8px; margin: 12px 0 16px; padding: 16px 8px; background: #fff; border: 2px solid #f4dc9c; border-radius: 18px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-weight: 800; font-size: 1.5rem; letter-spacing: .06em; color: var(--ink); user-select: all; -webkit-user-select: all; }
+.keybig { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 8px; margin: 12px 0 16px; padding: 16px 8px; background: #fff; border: 2px solid #f4dc9c; border-radius: 18px; font-family: inherit; font-variant-numeric: tabular-nums; font-weight: 800; font-size: 1.5rem; letter-spacing: .06em; color: var(--ink); user-select: all; -webkit-user-select: all; }
 .keybig i { font-style: normal; color: var(--muted); }
 .keyfresh .note { margin-top: 14px; }
 .keyh { font-size: 1rem; margin: 22px 0 6px; font-weight: 800; }

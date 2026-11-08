@@ -98,7 +98,7 @@
   });
 
   /* ---------- Router ---------- */
-  const TABS = [['guide', 'spark', 'Geführte Vorsorge'], ['dossier', 'folder', 'Mein Dossier'], ['profile', 'user', 'Profil']];
+  const TABS = [['start', 'home', 'Start'], ['guide', 'spark', 'Geführte Vorsorge'], ['dossier', 'folder', 'Mein Dossier'], ['profile', 'user', 'Profil']];
   LF.go = (p) => { if (location.hash.slice(1) === p) LF.render(); else location.hash = p; };
   function gate(name, arg) { // entscheidet, was gezeigt wird (angemeldet? eingerichtet? Ansicht mit Key?)
     if (LF.viewer) return ['view'];
@@ -108,7 +108,7 @@
       const n = Number(arg);
       return ['setup', name === 'setup' && LF.settings.consented && n >= 1 && n <= 3 ? String(n) : '1'];
     }
-    if (!LF.routes[name] || ['setup', 'login', 'key', 'language', 'loading', 'view'].includes(name)) return ['guide'];
+    if (!LF.routes[name] || ['setup', 'login', 'key', 'language', 'loading', 'view'].includes(name)) return ['start'];
     return [name, arg];
   }
   function renderTabs(active) {
@@ -125,7 +125,7 @@
     const want = name + (arg ? '/' + arg : '');
     if (location.hash.slice(1) !== want) history.replaceState(null, '', '#' + want);
     document.body.classList.remove('no-tabs');
-    renderTabs(['guide', 'dossier', 'profile'].includes(name) ? name : null);
+    renderTabs(['start', 'guide', 'dossier', 'profile'].includes(name) ? name : null);
     const fn = LF.routes[name];
     try {
       if (fn) fn(arg ? decodeURIComponent(arg) : undefined);

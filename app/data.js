@@ -22,6 +22,8 @@ const SECTIONS = [
     types: ['Privatkonto', 'Sparkonto', 'Säule 3a', 'Wertschriften', 'Freizügigkeitskonto', 'Andere'], nameLabel: ['Bank oder Institut', 'z. B. Berner Kantonalbank'], noteLabel: ['Bemerkung', 'z. B. Filiale Bümpliz'] },
   { id: 'vertraege', kind: 'list', icon: 'contract', title: 'Verträge und Abos', hint: 'Was Angehörige kündigen oder übernehmen müssen.', unit: ['Vertrag', 'Verträge'],
     types: ['Handy', 'Internet & TV', 'Miete', 'Zeitung / Zeitschrift', 'Streaming', 'Verein', 'Spende / Dauerauftrag', 'Andere'], nameLabel: ['Anbieter', 'z. B. Swisscom'], noteLabel: ['Bemerkung', 'z. B. monatlich, Kundennummer'] },
+  { id: 'dokumente', kind: 'list', icon: 'file', title: 'Dokumente und Unterlagen', hint: 'Alles, was Angehörige finden sollen: Foto machen oder PDF hochladen. Nie Passwörter oder PINs.', unit: ['Dokument', 'Dokumente'],
+    types: ['Versicherung', 'AHV und Pensionskasse', 'Steuern', 'Wohnen und Miete', 'Gesundheit', 'Patientenverfügung / Vorsorge', 'Ausweis und Zivilstand', 'Sonstiges'], nameLabel: ['Titel', 'z. B. Police Hausrat 2025'], noteLabel: ['Notiz', 'z. B. Original liegt im Ordner «Wohnen»'] },
   { id: 'wohnen', kind: 'form', icon: 'home', title: 'Wohnen', hint: 'Wohnung oder Haus.',
     fields: [{ k: 'art', label: 'Ich wohne in', options: ['Mietwohnung', 'Eigentumswohnung', 'Haus', 'Wohnung im Heim / betreut'] },
       { k: 'vermieter', label: 'Vermieter / Verwaltung', ph: 'z. B. Immo AG, 031 …' },

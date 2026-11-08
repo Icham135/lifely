@@ -160,12 +160,12 @@ try {
     await page1.locator('input[type=email]').first().fill(`lifely+${R}x@example.com`);
     const pw = page1.locator('input[type=password]').locator('visible=true'); await pw.first().fill('abc'); if (await pw.count() > 1) await pw.nth(1).fill('abc');
     await submitAuth(page1); const t = await body(page1);
-    must(/mindestens|zu kurz|Zeichen|Passwort/i.test(t) && !/setup|guide/.test(await hash(page1)), 'Keine Fehlermeldung bei kurzem Passwort');
+    must(/mindestens|zu kurz|Zeichen|Passwort/i.test(t) && !/setup|start|guide/.test(await hash(page1)), 'Keine Fehlermeldung bei kurzem Passwort');
   });
-  await step('1c Registrieren (neues Konto)', async () => { await register(page1, MAIL1); await sleep(1500); must(/setup|guide|tour/.test(await hash(page1)) || /Name|Datenschutz/i.test(await body(page1)), 'Nach Registrierung nicht im Einrichten, Hash=' + await hash(page1)); });
+  await step('1c Registrieren (neues Konto)', async () => { await register(page1, MAIL1); await sleep(1500); must(/setup|start|guide|tour/.test(await hash(page1)) || /Name|Datenschutz/i.test(await body(page1)), 'Nach Registrierung nicht im Einrichten, Hash=' + await hash(page1)); });
   await step('1d Einrichten (Datenschutz, Name, Schrift)', async () => { await setupAndTour(page1); must(!/setup/.test(await hash(page1)), 'Einrichten bleibt hängen bei ' + await hash(page1)); });
   await step('1e Rundgang erscheint und lässt sich durchklicken', async () => { await sleep(800); const c = await tourThrough(page1); must(c >= 2, 'Rundgang nicht erkannt oder nur ' + c + ' Schritt(e)'); await sleep(400); });
-  await step('1f Startbildschirm Geführte Vorsorge + Tableiste (3 Tabs)', async () => { await go(page1, 'guide'); must(await page1.locator('[data-tab]').locator('visible=true').count() === 3, 'Tableiste hat nicht 3 Tabs'); });
+  await step('1f Startbildschirm Geführte Vorsorge + Tableiste (4 Tabs)', async () => { await go(page1, 'guide'); must(await page1.locator('[data-tab]').locator('visible=true').count() === 4, 'Tableiste hat nicht 4 Tabs'); });
   // Abmelden/Anmelden mit falschem Passwort: später im Profil; hier frischer Kontext
   await step('1g Falsches Passwort zeigt Fehler (frischer Kontext)', async () => {
     const c = await browser.newContext({ viewport: { width: 390, height: 844 } }); const p = await mkPage(c); cur = p;
@@ -263,7 +263,7 @@ try {
 
   /* 7 Messungen (Konto 1 noch aktiv) */
   cur = page1; await login(page1, MAIL1).catch(() => {}); await sleep(1500);
-  const screens = ['guide', 'guide/run', 'dossier', 'dossier/persoenlich', 'dossier/personen', 'dossier/testament', 'dossier/konten', 'dossier/wohnen', 'profile', 'profile/privacy'];
+  const screens = ['start', 'guide', 'guide/run', 'dossier', 'dossier/dokumente', 'dossier/persoenlich', 'dossier/personen', 'dossier/testament', 'dossier/konten', 'dossier/wohnen', 'profile', 'profile/privacy'];
   for (const [w, h, size] of [[390, 844, null], [320, 568, null], [390, 844, /sehr gross/i], [320, 568, /sehr gross/i]]) {
     await step(`7 Messung ${w}px${size ? ' Schrift sehr gross' : ''}`, async () => {
       await page1.setViewportSize({ width: w, height: h }); if (size) await setSize(page1, size); else await setSize(page1, /^\s*normal/i);

@@ -4,7 +4,6 @@
   --teal9: #0a3f3a; --teal7: #0e6b60; --teal5: #14907f; --teal1: #dcefea; --teal0: #eef7f5;
   --paper: #faf7f1; --white: #fff; --ink: #16221f; --muted: #5b6763; --line: #e3e0d8;
   --sun: #f2b33d; --sun1: #fcefd0; --sunInk: #6b5210; --coral: #e2573f; --coral1: #fdebe6; --coralInk: #9c2b17; --ok: #17643a; --ok1: #dff3e7;
-  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
   --fs: 18px; --tab: 82px; font-size: var(--fs);
 }
 :root[data-size="gross"] { --fs: 21px; }
@@ -72,7 +71,7 @@ button.card:hover, button.row:hover, a.row:hover { border-color: var(--teal5); }
 .card.mint { background: var(--teal0); border-color: var(--teal1); }
 .card.dark { background: var(--teal9); border-color: var(--teal9); color: #fff; }
 .card.dark .ic { color: #fff; }
-.qt { font-family: var(--serif); font-size: 1.45rem; line-height: 1.25; font-weight: 600; margin: 8px 0 16px; color: var(--ink); }
+.qt { font-size: 1.45rem; line-height: 1.25; font-weight: 600; margin: 8px 0 16px; color: var(--ink); }
 .qt.small { font-size: 1.2rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
 .qt.big { font-size: 1.8rem; margin: 6px 0 20px; }
 .okc { color: var(--ok); }
@@ -182,7 +181,7 @@ textarea.in { resize: vertical; line-height: 1.45; }
 .tl small { color: var(--muted); font-size: .84rem; }
 
 /* Geschichte */
-.qs { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; margin: 4px 0 6px; }
+.qs { font-size: 1.1rem; font-weight: 600; margin: 4px 0 6px; }
 .ans { color: #33403d; white-space: pre-line; }
 .mini { margin-top: 6px; font-size: .9rem; color: var(--muted); }
 
@@ -249,7 +248,7 @@ body.touring #app { padding-bottom: 80vh; }
 #print { display: none; }
 @media print {
   body > *:not(#print) { display: none !important; }
-  #print { display: block !important; font-family: var(--serif); color: #000; padding: 10mm; font-size: 12pt; }
+  #print { display: block !important; color: #000; padding: 10mm; font-size: 12pt; }
   #print h1 { font-family: 'Figtree', sans-serif; font-size: 22pt; }
   #print h2 { font-family: 'Figtree', sans-serif; font-size: 13pt; margin: 8mm 0 2mm; break-after: avoid; }
   #print .sub { color: #444; font-size: 10pt; margin-bottom: 4mm; }
