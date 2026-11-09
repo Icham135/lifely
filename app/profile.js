@@ -72,10 +72,10 @@
   function langSheet() {
     const L = [['de', 'Deutsch'], ['fr', 'Français'], ['it', 'Italiano'], ['en', 'English']];
     const el = LF.sheet(`<h2>${t('Sprache')}</h2><div class="stack">${L.map(([id, n]) => `<button class="choice" role="radio" aria-checked="${LF.settings.lang === id}" data-lang="${id}">${n}</button>`).join('')}</div>
-      <p class="tiny">${t('Übersetzung folgt')}</p><div class="bottom"><button class="btn ghost" data-no>${t('Schliessen')}</button></div>`, (e) => {
+      <div class="bottom"><button class="btn ghost" data-no>${t('Schliessen')}</button></div>`, (e) => {
       if (e.target.closest('[data-no]')) return closeSheet(el);
       const b = e.target.closest('[data-lang]'); if (!b) return;
-      LF.settings.lang = b.dataset.lang; LF.saveSettings(); closeSheet(el); LF.render(); LF.toast(b.dataset.lang === 'de' ? t('Gespeichert') : t('Übersetzung folgt'));
+      LF.settings.lang = b.dataset.lang; LF.saveSettings(); closeSheet(el); LF.render(); LF.toast(t('Gespeichert'));
     });
   }
 
@@ -178,9 +178,10 @@
       <p class="lead">${t('Kurz und einfach erklärt, was mit Ihren Angaben geschieht.')}</p>
       ${blk('lock', t('Wo liegen Ihre Daten?'), t('Ihre Daten liegen verschlüsselt auf einem Server in der Schweiz (Zürich).'))}
       ${blk('people', t('Wer sieht sie?'), t('Andere sehen Ihre Daten nur, wenn Sie einen Key weitergeben. Mit einem Key kann eine Person lesen, aber nichts ändern.'))}
-      ${blk('info', t('Was geht an die KI?'), t('Wenn Sie die KI (künstliche Intelligenz, ein Computerprogramm, das Fragen beantwortet) um Hilfe bitten, geht nur der Text Ihrer Frage an einen KI-Dienst (er steht ausserhalb der Schweiz), nie Ihre Dokumente oder Fotos.'))}
+      ${blk('info', t('Was geht an die KI?'), t('Wenn Sie die KI (künstliche Intelligenz, ein Computerprogramm, das Fragen beantwortet) um Hilfe bitten, geht nur der Text Ihrer Frage an einen KI-Dienst in den USA (Groq), nie Ihre Dokumente oder Fotos.'))}
       ${blk('check', t('Was wir nie speichern'), t('Passwörter, PINs und Kontonummern. Bitte schreiben Sie diese auch nicht ins Dossier. Notieren Sie stattdessen, wo sie aufbewahrt sind.'))}
       ${blk('user', t('Ihre Rechte'), t('Sie können Ihre Angaben jederzeit ändern, Keys widerrufen und Ihr Konto samt allen Daten löschen.'))}
+      <p class="lead"><a class="link" href="../datenschutz.html" target="_blank" rel="noopener">${t('Vollständige Datenschutzerklärung lesen')}</a></p>
       <p class="note sunbg">${t('Das ist ein Prototyp. Bitte tragen Sie nur Testdaten ein.')} ${t('Lifely ist ein Prototyp einer Projektarbeit. Diese Seite ist eine einfache Erklärung und kein Rechtsdokument.')}</p>
       <div class="bottom"><button class="btn ghost" data-go="profile">${t('Zurück zum Profil')}</button></div>
     </section>`;

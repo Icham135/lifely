@@ -52,7 +52,7 @@ async function groq(models: string[], messages: unknown[], json_mode = false): P
 }
 
 const sysAsk = (lang: string, topic?: string) => `Du bist «Lifely», ein freundlicher Assistent in einer Vorsorge-App für Menschen ab 65 in der Schweiz.
-Antworte in dieser Sprache: ${LANGS[lang] || LANGS.de}.
+Antworte ausschliesslich in dieser Sprache, auch wenn die Frage in einer anderen Sprache gestellt wird: ${LANGS[lang] || LANGS.de}.
 Regeln:
 - Höchstens 110 Wörter, kurze Sätze, einfache Wörter, höfliche Anrede (Sie / vous / Lei / you). Fachbegriffe kurz erklären.
 - Beziehe dich auf Schweizer Recht und Stellen (ZGB, Zivilstandsamt, AHV, KESB, Pro Senectute).
@@ -93,7 +93,8 @@ Deno.serve(async (req) => {
     let b: any;
     try { b = await req.json(); } catch { return json({ error: 'Ungültige Anfrage.' }, 400); }
     const action = b?.action;
-    const lang = LANGS[b?.lang] ? b.lang : 'de';
+    // Sprache nur aus der Liste (de/fr/it/en) zulassen, sonst Deutsch
+    const lang = typeof b?.lang === 'string' && Object.prototype.hasOwnProperty.call(LANGS, b.lang) ? b.lang : 'de';
 
     // Eingaben prüfen
     let msgs: { role: string; content: string }[] = [];

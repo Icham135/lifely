@@ -111,7 +111,7 @@ button.card:hover, button.row:hover, a.row:hover { border-color: var(--teal5); }
 textarea.in { resize: vertical; line-height: 1.45; }
 .in:focus { outline: none; border-color: var(--teal7); box-shadow: 0 0 0 4px var(--teal1); }
 .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; padding: 6px; background: #efebe2; border-radius: 999px; }
-.seg button { min-height: 48px; border-radius: 999px; border: 0; background: transparent; font-weight: 800; color: var(--muted); font-size: .9rem; padding: 0 6px; }
+.seg button { min-height: 48px; border-radius: 999px; border: 0; background: transparent; font-weight: 800; color: var(--muted); font-size: .9rem; padding: 8px 6px; line-height: 1.2; height: auto; }
 .seg button[aria-pressed="true"] { background: var(--white); color: var(--teal9); box-shadow: inset 0 0 0 2px var(--teal7), 0 2px 8px rgba(22,34,31,.1); }
 .seg button[aria-pressed="true"]::before { content: "✓ "; }
 .choice { display: flex; align-items: center; justify-content: space-between; min-height: 62px; padding: 12px 18px; border-radius: 20px; border: 2px solid var(--line); background: var(--white); font-weight: 800; text-align: left; }

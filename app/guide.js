@@ -153,7 +153,7 @@
     let ph = g.ph || (g.si ? 'step' : 'intro');
     if (ph === 'intro') {
       const done = (gs().log || []).length;
-      const txt = (tp.intro || '') + ' ' + t('Das dauert etwa {n} Minuten.', { n: tp.minutes || 1 });
+      const txt = (tp.intro ? t(tp.intro) : '') + ' ' + t('Das dauert etwa {n} Minuten.', { n: tp.minutes || 1 });
       if (!await say(tok, txt.trim(), { title: t(tp.title) })) return;
       L.guide.set({ ph: 'step', shown: 'I' + g.ti }); ph = 'step';
     }
@@ -164,14 +164,14 @@
       else {
         const st = tp.steps[si], key = g.ti + ':' + si;
         L.guide.set({ si }); updHead();
-        if (gs().shown !== key) { if (!await say(tok, st.q || st.text)) return; L.guide.set({ shown: key }); }
-        zone(tok, tp, st); if (tok === G.tok) { reveal(); focusZone(st.q || st.text); } return;
+        if (gs().shown !== key) { if (!await say(tok, t(st.q || st.text))) return; L.guide.set({ shown: key }); }
+        zone(tok, tp, st); if (tok === G.tok) { reveal(); focusZone(t(st.q || st.text)); } return;
       }
     }
     // Ende eines Themas
     const key = 'O' + g.ti;
     if (gs().shown !== key) {
-      if (tp.outro && !await say(tok, tp.outro)) return;
+      if (tp.outro && !await say(tok, t(tp.outro))) return;
       const s = L.dossier.summary(tp.section);
       if (s && !await say(tok, t('Das haben wir festgehalten') + ': ' + s)) return;
       const dt = (gs().doneTopics || []).filter(x => x !== tp.id).concat(tp.id);
@@ -199,13 +199,13 @@
 
   function zone(tok, tp, st) {
     G.cur = { tp, st }; const sc = sec(tp.section), d = L.dossier.get(tp.section), o = { why: !!st.explain };
-    const ph = esc(st.ph || '');
+    const ph = esc(st.ph ? t(st.ph) : '');
     if (st.type === 'info') return ctrl(`<button class="btn primary" data-act="info">${t('Weiter')}</button>`, Object.assign(o, { skip: false }));
     if (st.type === 'yesno') return ctrl(`<div class="g-yn"><button class="btn primary" data-act="yn" data-v="ja">${t('Ja')}</button><button class="btn ghost" data-act="yn" data-v="nein">${t('Nein')}</button><button class="btn ghost" data-act="yn" data-v="?">${t('Weiss nicht')}</button></div>`, o);
-    if (st.type === 'choice') return ctrl(`<div class="g-chips">${(st.options || []).map((x, i) => `<button class="g-chip" data-act="ch" data-i="${i}">${esc(x)}</button>`).join('')}</div>`, o);
+    if (st.type === 'choice') return ctrl(`<div class="g-chips">${(st.options || []).map((x, i) => `<button class="g-chip" data-act="ch" data-i="${i}">${esc(t(x))}</button>`).join('')}</div>`, o);
     if (st.type === 'text') {
       const cur = getVal(d, st.field) || '';
-      return ctrl(`<label class="sr" for="gi">${esc(st.q)}</label>${st.area ? `<textarea id="gi" class="in" rows="4" placeholder="${ph}">${esc(cur)}</textarea>` : `<input id="gi" class="in" type="text" placeholder="${ph}" value="${esc(cur)}" autocomplete="off">`}
+      return ctrl(`<label class="sr" for="gi">${esc(t(st.q))}</label>${st.area ? `<textarea id="gi" class="in" rows="4" placeholder="${ph}">${esc(cur)}</textarea>` : `<input id="gi" class="in" type="text" placeholder="${ph}" value="${esc(cur)}" autocomplete="off">`}
         <div id="gq"></div><div class="g-btns"><button class="btn primary" data-act="send">${t('Senden')}</button>${st.optional ? `<button class="btn ghost" data-act="later">${t('Diese Frage überspringen')}</button>` : ''}</div>`, o);
     }
     if (st.type === 'upload') {
@@ -215,7 +215,7 @@
     }
     if (st.type === 'list' || st.type === 'people') {
       const ppl = st.type === 'people';
-      return ctrl(`<label class="sr" for="gi">${esc(st.q)}</label><textarea id="gi" class="in" rows="3" placeholder="${esc(st.example ? t('z. B.') + ' ' + st.example.replace(/^z\. ?B\. ?/, '') : ppl ? t('z. B. Meine Tochter Anna Muster, 079 123 45 67') : t('z. B. CSS Krankenkasse und Mobiliar Hausrat'))}"></textarea>
+      return ctrl(`<label class="sr" for="gi">${esc(t(st.q))}</label><textarea id="gi" class="in" rows="3" placeholder="${esc(st.example ? t('z. B.') + ' ' + st.example.replace(/^z\. ?B\. ?/, '') : ppl ? t('z. B. Meine Tochter Anna Muster, 079 123 45 67') : t('z. B. CSS Krankenkasse und Mobiliar Hausrat'))}"></textarea>
         <div id="gq"></div><div class="g-btns"><button class="btn primary" data-act="extract">${t('Weiter')}</button>
         <button class="btn ghost" data-act="manual">${t('Lieber selbst eintragen')}</button>
         ${ppl ? `<button class="btn ghost" data-act="later">${t('Später')}</button>` : `<button class="btn ghost" data-act="none">${esc(t(st.none || 'Ich habe keine'))}</button>`}</div>`, o);
@@ -295,7 +295,7 @@
     const ty = typing(); let reply = '';
     try { reply = await L.ai.ask(msgs, t(tp.title)); } catch { reply = ''; }
     ty.remove(); if (tok !== G.tok) return;
-    const cont = st ? (st.q || st.text || '') : '';
+    const cont = st ? t(st.q || st.text || '') : '';
     if (reply) push({ who: 'bot', text: reply, qa: true, hint: cont ? t('Weiter geht es mit: {x}', { x: cont }) : '' });
     else push({ who: 'bot', text: t('Die Antwort klappt gerade leider nicht. Bitte versuchen Sie es später nochmals. Sie können hier ganz normal weiterfahren.') });
     reveal();
@@ -309,7 +309,7 @@
     if (a === 'next') { if (G.busy) return; G.busy = true; L.guide.set({ ti: gs().ti + 1, si: 0, ph: 'intro' }); $('gz').innerHTML = ''; return step(tok).finally(() => { G.busy = false; }); }
     if (a === 'ask') return panel(`<div class="g-ask"><label class="sr" for="gq2">${t('Ihre Frage')}</label><textarea id="gq2" class="in" rows="2" placeholder="${t('Ihre Frage')}"></textarea><button class="btn primary" data-act="askgo">${t('Frage senden')}</button><p class="tiny">${t('Bitte keine Passwörter oder Kontonummern eingeben.')}</p></div>`) || $('gq2') && $('gq2').focus();
     if (a === 'askgo') return askAi(tok);
-    if (a === 'why') return panel(`<div class="note">${esc(st && st.explain)}</div>`);
+    if (a === 'why') return panel(`<div class="note">${esc(st && st.explain ? t(st.explain) : '')}</div>`);
     if (a === 'skipmenu') return panel(`<div class="g-ask"><button class="btn ghost" data-act="skipstep">${t('Diese Frage überspringen')}</button><button class="btn ghost" data-act="skiptopic">${t('Ganzes Thema überspringen')}</button></div>`);
     if (a === 'skipstep' || a === 'later') return skipStep(tok);
     if (a === 'skiptopic') {
@@ -324,12 +324,12 @@
       const v = b.dataset.v, lab = v === 'ja' ? t('Ja') : v === 'nein' ? t('Nein') : t('Weiss nicht');
       return answer(tok, lab, () => setVal(tp.section, st.field || 'has', v), { react: v === 'ja' ? '' : v === 'nein' ? t('Kein Problem. Wir halten fest, dass es noch offen ist. Sie können das später nachholen.') : t('Auch das ist in Ordnung. Wir merken es als offen vor.') });
     }
-    if (a === 'ch') { const v = st.options[+b.dataset.i]; return answer(tok, v, () => setVal(tp.section, st.field, v)); }
+    if (a === 'ch') { const v = st.options[+b.dataset.i]; return answer(tok, t(v), () => setVal(tp.section, st.field, v)); }
     if (a === 'send' || a === 'sendq') {
       const inp = $('gi'), v = (inp.value || '').trim();
       if (!v) return L.toast(st.optional ? t('Bitte schreiben Sie etwas oder tippen Sie auf «Überspringen».') : t('Bitte schreiben Sie kurz etwas.'));
       if (a === 'send' && /\?\s*$/.test(v)) return ($('gq').innerHTML = `<div class="note sunbg g-qq"><b>${t('Das ist eine Frage – an Lifely stellen?')}</b><div class="g-btns"><button class="btn primary" data-act="qyes">${t('Ja, Frage stellen')}</button><button class="btn ghost" data-act="sendq">${t('Nein, so speichern')}</button></div></div>`);
-      return answer(tok, v, () => setVal(tp.section, st.field, v));
+      return answer(tok, t(v), () => setVal(tp.section, st.field, v));
     }
     if (a === 'qyes') { const v = ($('gi').value || '').trim(); panel(`<div class="g-ask"><textarea id="gq2" class="in" rows="2">${esc(v)}</textarea><button class="btn primary" data-act="askgo">${t('Frage senden')}</button></div>`); $('gq').innerHTML = ''; return; }
     if (a === 'fertig') {

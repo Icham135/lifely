@@ -39,7 +39,7 @@
       <h1 tabindex="-1" class="center">Sprache · Langue · Language · Lingua</h1>
       <p class="lead center">Bitte wählen · Veuillez choisir · Please choose · Si prega di scegliere</p>
       <div class="stack" role="radiogroup" aria-label="Sprache">
-        ${LANGS.map(l => `<button type="button" class="choice" role="radio" data-lang="${l.id}" aria-checked="${cur === l.id}" lang="${l.id}"><span>${l.name}${l.id !== 'de' ? `<br><small>${esc(t('Übersetzung folgt'))}</small>` : ''}</span>${cur === l.id ? I.check : ''}</button>`).join('')}
+        ${LANGS.map(l => `<button type="button" class="choice" role="radio" data-lang="${l.id}" aria-checked="${cur === l.id}" lang="${l.id}"><span>${l.name}</span>${cur === l.id ? I.check : ''}</button>`).join('')}
       </div></section>`;
     LF.app.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => {
       LF.settings.lang = b.dataset.lang;
@@ -60,7 +60,7 @@
         <button type="button" data-mode="up" aria-pressed="${up}">${esc(t('Registrieren'))}</button></div>
       <form id="af" class="stack auth-form" novalidate>
         <label class="field">${esc(t('Ihre E-Mail-Adresse'))}
-          <input class="in" id="am" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="name@beispiel.ch" required></label>
+          <input class="in" id="am" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="name@example.ch" required></label>
         <div class="field"><label for="ap">${esc(t('Passwort'))}</label>
           <div class="pwrap"><input class="in" id="ap" type="password" autocomplete="${up ? 'new-password' : 'current-password'}" minlength="8" required>
             <button type="button" class="pwshow" id="ash" aria-pressed="false">${esc(t('Anzeigen'))}</button></div>
@@ -150,7 +150,7 @@
   const POINTS = () => [
     t('Ihre Daten liegen verschlüsselt auf einem Server in der Schweiz (Zürich). Andere sehen sie nur, wenn Sie einen Key weitergeben.'),
     t('Sie können alles jederzeit ändern und das Konto samt Daten löschen.'),
-    t('Wenn Sie die KI (künstliche Intelligenz, ein Computerprogramm, das Fragen beantwortet) um Hilfe bitten, geht nur der Text Ihrer Frage an einen KI-Dienst (er steht ausserhalb der Schweiz), nie Ihre Dokumente oder Fotos.'),
+    t('Wenn Sie die KI (künstliche Intelligenz, ein Computerprogramm, das Fragen beantwortet) um Hilfe bitten, geht nur der Text Ihrer Frage an einen KI-Dienst in den USA (Groq), nie Ihre Dokumente oder Fotos.'),
     t('Lifely ist kein Rechtsdokument und kein Ersatz für Beratung.'),
     t('Das ist ein Prototyp. Bitte tragen Sie nur Testdaten ein.'),
     t('Bitte tragen Sie keine Passwörter ein.'),
