@@ -23,3 +23,9 @@ App V3 (Tabs Start, Geführte Vorsorge, Mein Dossier, Profil; Bereich «Dokument
 ## Weitere offene Punkte
 Design des Users («nicht clean», braucht Screenshots der störenden Stellen); kein Passwort-Reset/keine E-Mail-Bestätigung; rechtliche Prüfung der Datenschutzerklärung; Foto-Aufnahme nicht auf echtem Handy getestet.
 User-Aufgaben: alten Gemini-Key widerrufen, Supabase-Token «claude» löschen, Google-Form-Reste löschen, evtl. London-Projekt hxmmwltnturdbuvejlju löschen. V2-Ordner (~/Desktop/Projekte/Lifely/Website-2.0) erst nach dem fertigen PDF löschen.
+
+## Stand 25.11.2026: Zugangsschlüssel (Key) und Server
+- «Key» heisst in der App und auf der Landingpage jetzt **Zugangsschlüssel**. Online läuft er noch im alten Format (LIFE-XXXX-XXXX-XXXX, 12 Zeichen, ohne Ablauf).
+- Der neue Schlüssel (20 Zeichen, gültig 12 Monate) und die Server-Prüfung für Geburtsdatum/Bereichsname sind im Code (`server/schema.sql`, `server/functions/*`) fertig, aber **nicht auf dem Server aktiv**, weil der Supabase-Token fehlt (neuen Token unter supabase.com/dashboard/account/tokens erstellen, in `keys/lifely-token.txt` ersetzen).
+- Aktivieren: `node` Skript für `schema.sql` per Management-API ausführen, `node server/deploy.mjs`, dann in `app-neu/config.js` `keyV2: true` setzen, `tools/cache-version.sh`, `tools/uebernehmen.sh`, committen, pushen, `node tests/e2e.mjs` gegen den Live-Link (35 PASS).
+- Französisch und Italienisch sind in der App noch gesperrt («Übersetzung folgt»); Englisch ist aktiv. Wörterbuch in `app-neu/i18n.js` (FR/IT ungeprüft).

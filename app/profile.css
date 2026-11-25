@@ -25,3 +25,8 @@
 @media (prefers-reduced-motion: reduce) { .keyfresh { animation: none; } }
 .keybig span { white-space: nowrap; }
 .keybig span:not(:last-child)::after { content: "–"; color: var(--muted); margin-left: 6px; }
+/* Zugangscode mit 20 Zeichen: zwei Gruppen pro Zeile, Trennstrich nur innerhalb der Zeile */
+.keybig { display: grid; grid-template-columns: repeat(2, auto); justify-content: center; gap: 6px 10px; font-size: 1.45rem; }
+.keybig span:nth-child(even)::after { content: none; }
+.keybig span:nth-child(odd)::after { content: "–"; color: var(--muted); margin-left: 10px; }
+@media (max-width: 360px) { .keybig { font-size: 1.15rem; } }

@@ -1,4 +1,4 @@
-// Lifely: Nur-lesen-Ansicht mit Key (ohne Konto).
+// Lifely: Nur-lesen-Ansicht mit Zugangsschlüssel (ohne Konto).
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
 const ALLOWED = [/^https:\/\/icham135\.github\.io$/, /^http:\/\/localhost(:\d+)?$/];
@@ -15,9 +15,7 @@ async function sha256(s: string) {
   return [...new Uint8Array(d)].map((x) => x.toString(16).padStart(2, '0')).join('');
 }
 function normalize(k: string) {
-  let s = String(k || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (s.length === 16 && s.startsWith('LIFE')) s = s.slice(4);
-  return s;
+  return String(k || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 }
 // Alle path-Werte aus files-Listen sammeln (rekursiv)
 function collect(node: any, out: Set<string>, uid: string) {
@@ -42,15 +40,15 @@ Deno.serve(async (req) => {
     const ipHash = await sha256(SALT + ip);
 
     const k = normalize(b?.key);
-    const hash = k.length === 12 ? await sha256(k) : '';
-    const { data: ak } = hash ? await admin.from('access_keys').select('id,user_id,label,uses').eq('key_hash', hash).is('revoked_at', null).maybeSingle() : { data: null };
+    const hash = /^[A-Z0-9]{20}$/.test(k) ? await sha256(k) : '';
+    const { data: ak } = hash ? await admin.from('access_keys').select('id,user_id,label,uses').eq('key_hash', hash).is('revoked_at', null).gt('expires_at', new Date().toISOString()).maybeSingle() : { data: null };
     if (!ak) {
-      // Falscher Key: alte Versuche aufräumen, zählen, ggf. sperren (gültige Keys sind nie gesperrt)
+      // Falscher Zugangsschlüssel: alte Versuche aufräumen, zählen, ggf. sperren (gültige Zugangsschlüssel sind nie gesperrt)
       await admin.from('key_attempts').delete().lt('at', new Date(Date.now() - 86400000).toISOString());
       const { count } = await admin.from('key_attempts').select('*', { count: 'exact', head: true }).eq('ip_hash', ipHash).eq('ok', false).gte('at', new Date(Date.now() - 15 * 60000).toISOString());
       if ((count ?? 0) > 25) return json({ error: 'Zu viele Versuche. Bitte warten Sie 15 Minuten und versuchen Sie es dann nochmals.' }, 429);
       await admin.from('key_attempts').insert({ ip_hash: ipHash, ok: false });
-      return json({ error: 'Dieser Key stimmt nicht.' }, 404);
+      return json({ error: 'Dieser Zugangsschlüssel stimmt nicht.' }, 404);
     }
 
     await admin.rpc('lf_key_use', { kid: ak.id });

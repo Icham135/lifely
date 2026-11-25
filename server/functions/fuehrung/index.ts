@@ -77,6 +77,18 @@ function parseJson(txt: string): any {
   return null;
 }
 
+// Plausibilität eines Namens (Firma, Bank, Person): keine Scherz- oder Platzhalterwörter, nicht nur Ziffern, kein Tastaturgekritzel
+const BLOCK = new Set(('hund katze kater maus pferd kuh schwein vogel fisch hase huhn ente affe baer bär löwe tiger elefant banane apfel birne pizza pasta kaese käse brot wurst kuchen schoggi schokolade bier wein kaffee ' +
+  'test testen testing tester asdf qwertz qwerty abc abcd xyz xxx yyy zzz aaa bla blabla blub lol haha hihi hehe hallo hello hi hey nix nichts keine keiner egal irgendwas irgendwer keinen idk kp ka none null undefined nan dummy platzhalter foo ' +
+  'scheisse scheiss scheiße fuck fick arsch shit idiot trottel depp dumm ja nein vielleicht ok okay').split(' '));
+function plausible(name: string): boolean {
+  const v = String(name || '').trim();
+  if (v.length < 2 || (v.match(/\p{L}/gu) || []).length < 2) return false;
+  if (/(.)\1{3,}/u.test(v) || /(asdf|sdfg|dfgh|qwer|wert|ertz|yxcv|xcvb|hjkl|ghjk|uiop|1234|abcd)/i.test(v.replace(/\s/g, ''))) return false;
+  const core = v.toLowerCase().split(/[^\p{L}\d]+/u).filter((w) => w && !['und', 'oder', 'mit', 'der', 'die', 'das', 'ag', 'gmbh', 'sa'].includes(w));
+  return !(core.length && (core.every((w) => BLOCK.has(w)) || (core.length <= 2 && core.some((w) => BLOCK.has(w)))));
+}
+
 Deno.serve(async (req) => {
   setCors(req);
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
@@ -146,7 +158,7 @@ Nur Genanntes, nichts erfinden. Passwörter, PINs und Kontonummern weglassen.`;
       }
       const roles = cleanList(b.roles);
       return { name: clip(it?.name, 120), rel: clip(it?.rel, 80), role: roles.find((x) => clean(x, 40) === clean(it?.role, 40)) ?? '', phone: clip(it?.phone, 40), note: clip(it?.note, 300) };
-    }).filter((it: any) => it.name);
+    }).filter((it: any) => it.name && plausible(it.name));
     return json({ items });
   } catch (e) {
     console.error('fuehrung', e);

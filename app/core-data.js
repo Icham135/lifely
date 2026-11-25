@@ -1,4 +1,4 @@
-/* Lifely – Daten- und Netz-Schicht: Verbindung, Anmeldung, Dossier-Speicher, Dateien, KI, Keys, Ansicht. */
+/* Lifely – Daten- und Netz-Schicht: Verbindung, Anmeldung, Dossier-Speicher, Dateien, KI, Zugangsschlüssel, Ansicht. */
 (() => {
   const LF = window.LF;
   const t = (s, v) => (LF.t ? LF.t(s, v) : s);
@@ -29,7 +29,7 @@
     let msg = '';
     try { msg = (await error.context.json()).error || ''; } catch {}
     if (!msg && /fetch|network/i.test(error?.message || '')) msg = t('Keine Verbindung. Bitte prüfen Sie das Internet.');
-    return new Error(msg || fallback || t('Das hat nicht geklappt.'));
+    return new Error(String(msg || fallback || t('Das hat nicht geklappt.')).replace(/\bKeys\b/g, 'Zugangsschlüssel').replace(/\bKey\b/g, 'Zugangsschlüssel'));
   };
 
   // ---------- Zeile laden / Zustand ----------
@@ -249,7 +249,7 @@
   async function call(name, body) {
     const { data, error } = await sb.functions.invoke(name, { body });
     if (error) throw await fnErr(error);
-    if (data?.error) throw new Error(data.error);
+    if (data?.error) throw new Error(String(data.error).replace(/\bKeys\b/g, 'Zugangsschlüssel').replace(/\bKey\b/g, 'Zugangsschlüssel'));
     return data;
   }
   LF.ai = {
@@ -257,26 +257,27 @@
     async extract(kind, text, o = {}) { const d = await call('fuehrung', { action: 'extract', lang: LF.settings.lang, kind, text, types: o.types, roles: o.roles }); return d.items || []; },
   };
 
-  // ---------- Keys ----------
+  // ---------- Zugangsschlüssel ----------
   const AL = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  const KEYV2 = !!(window.LF_CONFIG && LF_CONFIG.keyV2), KEYLEN = KEYV2 ? 20 : 12; // V2: 20 Zeichen mit Ablaufdatum (braucht neuen Server)
   function rawKey() {
     let s = ''; const lim = 256 - (256 % AL.length);
-    while (s.length < 12) { const b = crypto.getRandomValues(new Uint8Array(24)); for (const x of b) { if (x < lim && s.length < 12) s += AL[x % AL.length]; } }
+    while (s.length < KEYLEN) { const b = crypto.getRandomValues(new Uint8Array(40)); for (const x of b) { if (x < lim && s.length < KEYLEN) s += AL[x % AL.length]; } }
     return s;
   }
   const sha = async (s) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map((x) => x.toString(16).padStart(2, '0')).join('');
   LF.keys = {
     async list() {
-      const { data, error } = await sb.from('access_keys').select('id,label,created_at,last_used_at,uses,revoked_at').order('created_at', { ascending: false });
+      const { data, error } = await sb.from('access_keys').select(KEYV2 ? 'id,label,created_at,last_used_at,uses,revoked_at,expires_at' : 'id,label,created_at,last_used_at,uses,revoked_at').order('created_at', { ascending: false });
       if (error) throw new Error(t('Das hat nicht geklappt.'));
       return data || [];
     },
     async create(label) {
       if (!LF.S.user) throw new Error(t('Bitte melden Sie sich an.'));
       const raw = rawKey();
-      const { data, error } = await sb.from('access_keys').insert({ user_id: LF.S.user.id, label: String(label || '').slice(0, 60), key_hash: await sha(raw) }).select('id,label,created_at,last_used_at,uses,revoked_at').single();
-      if (error) throw new Error(/Zu viele Keys/.test(error.message || '') ? t('Zu viele Keys. Bitte widerrufen Sie nicht benötigte Keys.') : t('Das hat nicht geklappt.'));
-      return { key: 'LIFE-' + raw.match(/.{4}/g).join('-'), row: data };
+      const { data, error } = await sb.from('access_keys').insert({ user_id: LF.S.user.id, label: String(label || '').slice(0, 60), key_hash: await sha(raw) }).select(KEYV2 ? 'id,label,created_at,last_used_at,uses,revoked_at,expires_at' : 'id,label,created_at,last_used_at,uses,revoked_at').single();
+      if (error) throw new Error(/Zu viele (Zugangsschlüssel|Keys)/.test(error.message || '') ? t('Zu viele Zugangsschlüssel. Bitte widerrufen Sie nicht benötigte Zugangsschlüssel.') : t('Das hat nicht geklappt.'));
+      return { key: KEYV2 ? raw.match(/.{5}/g).join('-') : 'LIFE-' + raw.match(/.{4}/g).join('-'), row: data };
     },
     async revoke(id) {
       const { error } = await sb.from('access_keys').update({ revoked_at: new Date().toISOString() }).eq('id', id);
@@ -284,12 +285,12 @@
     },
   };
 
-  // ---------- Ansicht mit Key ----------
+  // ---------- Ansicht mit Zugangsschlüssel ----------
   LF.viewer = null;
   LF.viewerOpen = async (key) => {
     const { data, error } = await sb.functions.invoke('ansicht', { body: { key } });
     if (error) throw await fnErr(error);
-    if (data?.error) throw new Error(data.error);
+    if (data?.error) throw new Error(String(data.error).replace(/\bKeys\b/g, 'Zugangsschlüssel').replace(/\bKey\b/g, 'Zugangsschlüssel'));
     LF.viewer = { name: data.name, label: data.label, data: data.data, urls: data.urls || {}, updated: data.updated || 0 };
     ss.set('lf_key', key);
   };
@@ -299,7 +300,7 @@
   LF.deleteAccount = async () => {
     const { data, error } = await sb.functions.invoke('konto', { body: { action: 'delete' } });
     if (error) throw await fnErr(error);
-    if (data?.error) throw new Error(data.error);
+    if (data?.error) throw new Error(String(data.error).replace(/\bKeys\b/g, 'Zugangsschlüssel').replace(/\bKey\b/g, 'Zugangsschlüssel'));
     try { await sb.auth.signOut({ scope: 'local' }); } catch {}
     resetState();
     try { Object.keys(localStorage).filter((k) => k.startsWith('lifely_') || k === 'lifely-auth').forEach((k) => localStorage.removeItem(k)); } catch {}

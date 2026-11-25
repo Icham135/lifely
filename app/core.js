@@ -100,7 +100,7 @@
   /* ---------- Router ---------- */
   const TABS = [['start', 'home', 'Start'], ['guide', 'spark', 'Geführte Vorsorge'], ['dossier', 'folder', 'Mein Dossier'], ['profile', 'user', 'Profil']];
   LF.go = (p) => { if (location.hash.slice(1) === p) LF.render(); else location.hash = p; };
-  function gate(name, arg) { // entscheidet, was gezeigt wird (angemeldet? eingerichtet? Ansicht mit Key?)
+  function gate(name, arg) { // entscheidet, was gezeigt wird (angemeldet? eingerichtet? Ansicht mit Zugangsschlüssel?)
     if (LF.viewer) return ['view'];
     if (!LF.S.user) { if (name === 'key' || name === 'language') return [name]; return [ls.get('lifely_lang') ? 'login' : 'language']; }
     if (!LF.S.ready) return ['loading'];

@@ -17,7 +17,7 @@ window.LF = window.LF || {};
       intro: 'Wir beginnen mit ein paar Angaben über Sie. So finden sich Ihre Angehörigen im Ernstfall schnell zurecht. Alles ist freiwillig, Sie können jede Frage überspringen.',
       steps: [
         { type: 'choice', q: 'Wie ist Ihr Zivilstand?', field: 'values.zivilstand', options: ['ledig', 'verheiratet', 'eingetragene Partnerschaft', 'verwitwet', 'geschieden'], explain: 'Der Zivilstand bestimmt oft, wer im Ernstfall zuständig ist.' },
-        { type: 'text', q: 'Wann sind Sie geboren?', field: 'values.geburt', ph: 'z. B. 12.03.1948', optional: true },
+        { type: 'text', q: 'Wann sind Sie geboren?', field: 'values.geburt', ph: 'z. B. 12.03.1948', optional: true, check: 'date' },
         { type: 'text', q: 'Wo wohnen Sie?', field: 'values.wohnort', ph: 'z. B. Bernstrasse 12, 3000 Bern', optional: true },
         { type: 'text', q: 'Wer ist Ihr Hausarzt oder Ihre Hausärztin?', field: 'values.hausarzt', ph: 'z. B. Dr. Anna Meier, 031 123 45 67', optional: true, explain: 'Ärzte und Rettungsdienste brauchen im Notfall rasch Auskunft.' },
         { type: 'text', q: 'Gibt es etwas, das man über Sie wissen sollte? Zum Beispiel Allergien oder Medikamente.', field: 'values.notiz', ph: 'z. B. Allergie gegen Penicillin', area: true, optional: true },

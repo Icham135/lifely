@@ -213,20 +213,20 @@ try {
     await page1.locator('.fl-del').first().click(); await sleep(500); await page1.locator('.backdrop button').filter({ hasText: /^\s*Löschen\s*$/ }).click(); await sleep(2000); must(await page1.locator('.fl-th').count() === 0, 'Datei nach Löschen noch sichtbar (Dialog: ' + (await page1.locator('.backdrop').count()) + ' offen, Toast: ' + ((await page1.locator('#toast').innerText().catch(() => '')) || '-') + ')');
   });
 
-  /* 4 Profil / Key */
-  await step('4a Key erstellen und aus Anzeige lesen', async () => {
+  /* 4 Profil / Zugangsschlüssel */
+  await step('4a Zugangsschlüssel erstellen und aus Anzeige lesen', async () => {
     await go(page1, 'profile'); await sleep(800); await page1.locator('#klabel').fill('Test-Tochter'); await page1.locator('#keyform button[type=submit]').click(); await sleep(3500);
     const i = page1.locator('input[type=text], input:not([type])').locator('visible=true'); if (await i.count()) await i.first().fill('Test-Tochter').catch(() => {});
-    await tryClick(page1, /erstellen|speichern|weiter/i, { wait: 2500 }); const kb = await page1.locator('.keybig').first().getAttribute('aria-label').catch(() => ''); const m = (kb || '').match(/LIFE-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}/); must(m, 'Kein Key im Format LIFE-XXXX-XXXX-XXXX sichtbar'); KEY = m[0];
+    await tryClick(page1, /erstellen|speichern|weiter/i, { wait: 2500 }); const kb = await page1.locator('.keybig').first().getAttribute('aria-label').catch(() => ''); const m = (kb || '').match(/(LIFE-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4})|([A-Z0-9]{5}(-[A-Z0-9]{5}){3})/); must(m, 'Kein Zugangsschlüssel im Format XXXXX-XXXXX-XXXXX-XXXXX sichtbar'); KEY = m[0];
   });
-  await step('4b Key-Liste zeigt den Key', async () => { await go(page1, 'profile'); await sleep(1500); must(/Test-Tochter/.test(await body(page1)), 'Key «Test-Tochter» nicht in der Liste'); });
+  await step('4b Zugangsschlüssel-Liste zeigt den Zugangsschlüssel', async () => { await go(page1, 'profile'); await sleep(1500); must(/Test-Tochter/.test(await body(page1)), 'Zugangsschlüssel «Test-Tochter» nicht in der Liste'); });
   await step('4c Schriftgrösse ändern (sehr gross)', async () => { await go(page1, 'profile'); await page1.locator('[data-size=sehr-gross]').click(); const fs0 = await page1.evaluate(() => parseFloat(getComputedStyle(document.body).fontSize)); must(fs0 >= 20, 'Schrift nicht grösser (' + fs0 + ' px)'); await page1.locator('[data-size=normal]').click(); });
 
   /* 5 Viewer in frischem Kontext */
   const ctx2 = await browser.newContext({ viewport: { width: 390, height: 844 } }); const pv = await mkPage(ctx2);
-  const openKey = async (k) => { await pv.goto(URL); await sleep(1500); if (await has(pv, /^\s*deutsch/i)) await click(pv, /^\s*deutsch/i); await click(pv, /ich habe einen key|key eingeben|mit key/i); await sleep(400); await pv.locator('input').locator('visible=true').first().fill(k); await click(pv, /dossier ansehen/i, { wait: 3500 }); };
-  await step('5a Falscher Key zeigt Fehler', async () => { cur = pv; await openKey('LIFE-ZZZZ-ZZZZ-ZZZZ'); must(/stimmt nicht|ungültig|falsch/i.test(await body(pv)) && !(await hash(pv)).includes('view'), 'Kein Fehler bei falschem Key'); });
-  await step('5b Richtiger Key: Nur-lesen-Ansicht mit allen Inhalten', async () => {
+  const openKey = async (k) => { await pv.goto(URL); await sleep(1500); if (await has(pv, /^\s*deutsch/i)) await click(pv, /^\s*deutsch/i); await click(pv, /ich habe einen zugangsschlüssel|zugangsschlüssel eingeben|mit zugangsschlüssel/i); await sleep(400); await pv.locator('input').locator('visible=true').first().fill(k); await click(pv, /dossier ansehen/i, { wait: 3500 }); };
+  await step('5a Falscher Zugangsschlüssel zeigt Fehler', async () => { cur = pv; await openKey('ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ'); must(/stimmt nicht|ungültig|falsch/i.test(await body(pv)) && !(await hash(pv)).includes('view'), 'Kein Fehler bei falschem Zugangsschlüssel'); });
+  await step('5b Richtiger Zugangsschlüssel: Nur-lesen-Ansicht mit allen Inhalten', async () => {
     cur = pv; await pv.reload(); await openKey(KEY); must((await hash(pv)).includes('view'), 'Nicht in Ansicht, Hash=' + await hash(pv)); await sleep(1500);
     const t = await all(pv).then(x => x + ' ' + 0); if (!(t.includes(M3 + '-form') || (await body(pv)).includes(M3))) { const vd = await pv.evaluate(() => JSON.stringify(Object.keys(LF.viewer?.data || {}))); const db = await page1.evaluate(async () => { try { const r = await LF.sb.from('dossiers').select('data').eq('user_id', LF.S.user.id).maybeSingle(); return JSON.stringify(Object.keys(r.data?.data || {})) + ' err=' + (r.error?.message || ''); } catch (e) { return 'fehler ' + e.message; } }); throw new Error('Inhalt (' + M3 + ') fehlt in Ansicht. Ansicht-Bereiche: ' + vd + ' | Datenbank-Bereiche des Besitzers: ' + db); }
   });
@@ -237,11 +237,11 @@ try {
   await step('5d Nur-lesen: Dateien sichtbar', async () => { cur = pv; must(await pv.locator('img[src]:not([src*="icons/"]), [class*=thumb], [class*=file]').count() > 0 || /\.pdf|\.png|\.jpg/i.test(await body(pv)), 'Keine Dateien in der Ansicht (Kontrolle: Datei wurde in 3e gelöscht, ggf. Chat-Dateien nötig)'); });
   await step('5e Nur-lesen bei 320 px ohne seitliches Scrollen', async () => { cur = pv; await pv.setViewportSize({ width: 320, height: 568 }); await sleep(300); await measure(pv, 'view@320'); });
   await ctx2.close();
-  await step('5f Key widerrufen → Key funktioniert nicht mehr', async () => {
+  await step('5f Zugangsschlüssel widerrufen → Zugangsschlüssel funktioniert nicht mehr', async () => {
     cur = page1; await go(page1, 'profile'); await sleep(800); await page1.locator('[data-revoke]').first().click(); await sleep(500); await page1.locator('.backdrop button').filter({ hasText: /^\s*Widerrufen\s*$/ }).click(); await sleep(2000);
     const c = await browser.newContext({ viewport: { width: 390, height: 844 } }); const p = await mkPage(c); cur = p; const old = pv; Object.assign(old, {}); 
-    await p.goto(URL); await sleep(1500); if (await has(p, /^\s*deutsch/i)) await click(p, /^\s*deutsch/i); await click(p, /ich habe einen key|key eingeben|mit key/i); await p.locator('input').locator('visible=true').first().fill(KEY); await click(p, /dossier ansehen/i, { wait: 3500 });
-    must(/stimmt nicht|ungültig|widerrufen|falsch/i.test(await body(p)) && !(await hash(p)).includes('view'), 'Widerrufener Key funktioniert noch'); await c.close(); cur = page1;
+    await p.goto(URL); await sleep(1500); if (await has(p, /^\s*deutsch/i)) await click(p, /^\s*deutsch/i); await click(p, /ich habe einen zugangsschlüssel|zugangsschlüssel eingeben|mit zugangsschlüssel/i); await p.locator('input').locator('visible=true').first().fill(KEY); await click(p, /dossier ansehen/i, { wait: 3500 });
+    must(/stimmt nicht|ungültig|widerrufen|falsch/i.test(await body(p)) && !(await hash(p)).includes('view'), 'Widerrufener Zugangsschlüssel funktioniert noch'); await c.close(); cur = page1;
   });
 
   /* 4 Rest: Rundgang nochmals, Abmelden, Anmelden */

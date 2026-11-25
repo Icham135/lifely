@@ -30,7 +30,7 @@
       <div class="qt small">${t('Ihr Dossier ist zu {x} % gefüllt', { x: p.percent })}</div>
       <div class="bar" role="progressbar" aria-valuenow="${p.percent}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p.percent}%"></i></div>
       ${open.length ? `<p class="tiny">${t('Noch offen')}:</p><div class="chips">${open.map(s => `<button class="chip" data-act="go" data-to="dossier/${s.id}">${esc(t(s.title))}</button>`).join('')}</div>` : `<p class="tiny">${t('Alle Bereiche sind geregelt. Wunderbar.')}</p>`}
-      <div class="note">${ic('lock')}<span>${t('Unter «Mein Dossier» können Sie alles jederzeit ergänzen. Unter «Profil → Key erstellen» geben Sie einer Vertrauensperson einen Zugang zum Nachschauen.')}</span></div></div>`;
+      <div class="note">${ic('lock')}<span>${t('Unter «Mein Dossier» können Sie alles jederzeit ergänzen. Unter «Profil → Zugangsschlüssel erstellen» geben Sie einer Vertrauensperson einen Zugang zum Nachschauen.')}</span></div></div>`;
   }
   function home() {
     G.tok++; noTabs(false);
@@ -59,7 +59,7 @@
         <p class="tiny">${t('Ihre bisherigen Angaben im Dossier bleiben erhalten.')}</p>`;
     }
     L.app.innerHTML = `<section class="screen g-home"><div class="top"><div class="wm"><img src="icons/logo.svg" alt="">Lifely</div></div>
-      <h1 class="hello">${name ? t('Grüezi, {name}', { name: esc(name) }) : t('Grüezi')}</h1>
+      <h1 class="hello">${name ? t('Guten Tag, {name}', { name: esc(name) }) : t('Guten Tag')}</h1>
       <div class="card sun g-prog"><div class="spread"><b>${t('Ihre Vorsorge')}</b><b>${p.percent} %</b></div>
         <div class="bar" role="progressbar" aria-valuenow="${p.percent}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p.percent}%"></i></div>
         <p class="tiny">${t('{done} von {total} Bereichen geregelt', { done: p.done, total: p.total })}</p></div>${body}</section>`;
@@ -243,7 +243,7 @@
   // Einträge prüfen/erfassen (list und people)
   const rowHtml = (r, i, st, sc) => {
     const ppl = sc.kind === 'people';
-    const opt = (arr, v) => arr.map(x => `<option${x === v ? ' selected' : ''}>${esc(x)}</option>`).join('');
+    const opt = (arr, v) => arr.map(x => `<option value="${esc(x)}"${x === v ? ' selected' : ''}>${esc(t(x))}</option>`).join('');
     return `<div class="g-ent" data-r="${i}"><div class="spread"><b>${t('Eintrag {n}', { n: i + 1 })}</b><button class="link" data-act="rm" data-i="${i}" aria-label="${t('Eintrag entfernen')}">${t('Entfernen')}</button></div>
       ${ppl ? `<label class="field">${t('Name')}<input class="in" data-f="name" value="${esc(r.name)}" autocomplete="off"></label>
         <label class="field">${t('Beziehung')}<input class="in" data-f="rel" value="${esc(r.rel)}" placeholder="${t('z. B. Tochter')}" autocomplete="off"></label>
@@ -328,8 +328,10 @@
     if (a === 'send' || a === 'sendq') {
       const inp = $('gi'), v = (inp.value || '').trim();
       if (!v) return L.toast(st.optional ? t('Bitte schreiben Sie etwas oder tippen Sie auf «Überspringen».') : t('Bitte schreiben Sie kurz etwas.'));
+      if (st.check) { const ce = L.check[st.check](v); if (ce) { $('gq').innerHTML = `<p class="fielderr" role="alert">${esc(ce)}</p>`; inp.classList.add('bad'); inp.focus(); return; } }
       if (a === 'send' && /\?\s*$/.test(v)) return ($('gq').innerHTML = `<div class="note sunbg g-qq"><b>${t('Das ist eine Frage – an Lifely stellen?')}</b><div class="g-btns"><button class="btn primary" data-act="qyes">${t('Ja, Frage stellen')}</button><button class="btn ghost" data-act="sendq">${t('Nein, so speichern')}</button></div></div>`);
-      return answer(tok, t(v), () => setVal(tp.section, st.field, v));
+      const vv = st.check === 'date' ? L.check.normDate(v) : v;
+      return answer(tok, t(vv), () => setVal(tp.section, st.field, vv));
     }
     if (a === 'qyes') { const v = ($('gi').value || '').trim(); panel(`<div class="g-ask"><textarea id="gq2" class="in" rows="2">${esc(v)}</textarea><button class="btn primary" data-act="askgo">${t('Frage senden')}</button></div>`); $('gq').innerHTML = ''; return; }
     if (a === 'fertig') {
@@ -345,6 +347,11 @@
     if (a === 'okrows') {
       const sc = sec(tp.section), rows = collect().filter(r => (r.name || '').trim());
       if (!rows.length) return L.toast(t('Bitte tragen Sie mindestens einen Namen ein.'));
+      // Plausibilitätsprüfung: bei Fehler Einträge behalten und die Meldung über der Liste zeigen
+      for (const [i, r] of rows.entries()) {
+        const e = L.check.name(r.name, sc.kind === 'people' ? 'person' : (sc.nameKind || 'firma')) || (sc.kind === 'people' ? L.check.phone(r.phone) : '');
+        if (e) { G.rows = collect(); return editor(t('Eintrag {n}: {e}', { n: i + 1, e })); }
+      }
       const names = rows.map(r => r.name.trim()).join(', ');
       return answer(tok, names, () => L.dossier.set(tp.section, d => {
         d.items = (d.items || []).concat(rows.map(r => sc.kind === 'people'

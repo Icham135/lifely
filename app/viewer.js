@@ -1,4 +1,4 @@
-/* Lifely – Ansicht mit Key: Dossier einer anderen Person, nur lesen. Eigene Darstellung, unabhängig von dossier.js. */
+/* Lifely – Ansicht mit Zugangsschlüssel: Dossier einer anderen Person, nur lesen. Eigene Darstellung, unabhängig von dossier.js. */
 (() => {
   const LF = window.LF, t = (s, v) => LF.t(s, v), esc = (s) => LF.esc(s == null ? '' : String(s));
   const has = (s) => typeof s === 'string' ? s.trim() !== '' : s != null;
@@ -25,7 +25,7 @@
 
   const person = (p) => `<div class="vw-item">
     <b>${esc(p.name)}</b>
-    ${[p.rel, p.role].filter(has).length ? `<div class="vw-sub">${esc([p.rel, p.role].filter(has).join(' · '))}</div>` : ''}
+    ${[p.rel, p.role].filter(has).length ? `<div class="vw-sub">${esc([p.rel, has(p.role) ? t(p.role) : ''].filter(has).join(' · '))}</div>` : ''}
     ${has(p.note) ? `<p class="vw-note">${esc(p.note)}</p>` : ''}${call(p)}</div>`;
 
   // Inhalt je Art

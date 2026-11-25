@@ -7,7 +7,7 @@
     { sel: ['[data-tour="guide-modes"]', '[data-tab="guide"]'], title: 'Geführte Vorsorge', text: 'Geführte Vorsorge: Sie wählen, wie viel Zeit Sie haben (15, 30 oder 60 Minuten). Lifely führt Sie dann wie in einem Gespräch durch alles Wichtige. Ihre Antworten und Fotos werden automatisch im Dossier gespeichert.' },
     { sel: ['[data-tab="start"]'], title: 'Zurück zum Start', text: 'Hier sind Sie immer wieder zurück am Start und können dort weitermachen, wo Sie aufgehört haben.' },
     { sel: ['[data-tab="dossier"]'], title: 'Mein Dossier', text: 'Mein Dossier: Alles, was Sie festgehalten haben, an einem Ort. Sie können es jederzeit selbst ansehen und ändern.' },
-    { sel: ['[data-tab="profile"]'], title: 'Profil', text: 'Profil: Hier erstellen Sie einen Key. Mit dem Key kann eine Vertrauensperson Ihr Dossier ansehen, aber nichts ändern. Dort stellen Sie auch die Schriftgrösse ein.' },
+    { sel: ['[data-tab="profile"]'], title: 'Profil', text: 'Profil: Hier erstellen Sie einen Zugangsschlüssel. Mit dem Zugangsschlüssel kann eine Vertrauensperson Ihr Dossier ansehen, aber nichts ändern. Dort stellen Sie auch die Schriftgrösse ein.' },
     { title: 'Das war\'s!', text: 'Das war\'s! Wählen Sie jetzt, wie viel Zeit Sie haben, und legen Sie los.' },
   ];
   const N = STEPS.length, GAP = 14, PAD = 8, EDGE = 12;

@@ -37,7 +37,7 @@
   <div class="box"><b>Das Wichtigste in Kürze</b>
     <ul>
       <li>Ihre Angaben liegen verschlüsselt bei Supabase auf einem Server in der Schweiz (Zürich).</li>
-      <li>Andere sehen Ihr Dossier nur, wenn Sie einen Key weitergeben. Mit dem Key kann man nur lesen.</li>
+      <li>Andere sehen Ihr Dossier nur, wenn Sie einen Zugangsschlüssel weitergeben. Mit dem Zugangsschlüssel kann man nur lesen.</li>
       <li><b>Die Antworten der Geführten Vorsorge erzeugt ein KI-Dienst in den USA (Groq).</b> Dorthin gelangt der Text Ihres Gesprächs, aber keine Fotos oder PDFs.</li>
       <li>Passwörter, PINs und Kontonummern gehören nicht ins Dossier und werden von Lifely nie verlangt.</li>
       <li>Sie können Ihr Konto samt allen Daten jederzeit selbst löschen.</li>
@@ -52,19 +52,19 @@
     <li><b>Konto:</b> E-Mail-Adresse und Passwort. Das Passwort wird nie im Klartext gespeichert, sondern verschlüsselt (gehasht) durch den Anmeldedienst von Supabase.</li>
     <li><b>Ihr Dossier:</b> alles, was Sie selbst eintragen, zum Beispiel Name, Personen, Hinweise zu Versicherungen, Testament, Wünsche, sowie hochgeladene Fotos und PDFs.</li>
     <li><b>Gespräch der Geführten Vorsorge:</b> Ihre Antworten und der Verlauf, damit Sie später weitermachen können.</li>
-    <li><b>Keys:</b> Für jeden Key speichern wir nur einen Fingerabdruck (SHA-256-Hash), nie den Key selbst. Den Key sehen nur Sie bei der Erstellung.</li>
+    <li><b>Zugangsschlüssel:</b> Für jeden Zugangsschlüssel speichern wir nur einen Fingerabdruck (SHA-256-Hash), nie den Zugangsschlüssel selbst. Den Zugangsschlüssel sehen nur Sie bei der Erstellung.</li>
     <li><b>Einstellungen:</b> Sprache, Schriftgrösse, Ihr Vorname und Ihre Zustimmung zu diesem Text.</li>
     <li><b>Technische Daten:</b> Beim Aufruf einer Seite sehen die Hosting-Anbieter Ihre IP-Adresse und Angaben zu Ihrem Gerät (siehe Punkt 4).</li>
   </ul>
   <p>Wir bearbeiten <b>keine</b> Passwörter oder PINs für Ihre Konten und setzen <b>keine</b> Werbe-, Analyse- oder Tracking-Dienste ein. Es gibt keine Cookies zu Werbezwecken. Die App speichert Sprache, Schriftgrösse und die Anmeldung im lokalen Speicher Ihres Browsers (nötig für den Betrieb).</p>
 
   <h2>3. Wofür verwenden wir die Daten?</h2>
-  <p>Nur, um Ihnen die Funktionen der App zu bieten: Anmeldung, Speichern Ihres Dossiers, Geführte Vorsorge, Zugriff über einen Key. Wir verkaufen keine Daten, betreiben kein Profiling und geben nichts zu Werbezwecken weiter.</p>
+  <p>Nur, um Ihnen die Funktionen der App zu bieten: Anmeldung, Speichern Ihres Dossiers, Geführte Vorsorge, Zugriff über einen Zugangsschlüssel. Wir verkaufen keine Daten, betreiben kein Profiling und geben nichts zu Werbezwecken weiter.</p>
 
   <h2>4. Wer erhält Daten? (Dienstleister und Ausland)</h2>
   <div class="tbl"><table>
     <tr><th>Dienst</th><th>Zweck</th><th>Standort</th><th>Daten</th></tr>
-    <tr><td>Supabase</td><td>Anmeldung, Datenbank, Dateispeicher, Server-Funktionen</td><td>Schweiz (Zürich); Anbieterfirma mit Sitz in den USA</td><td>Konto, Dossier, Dateien, Keys (nur Hash)</td></tr>
+    <tr><td>Supabase</td><td>Anmeldung, Datenbank, Dateispeicher, Server-Funktionen</td><td>Schweiz (Zürich); Anbieterfirma mit Sitz in den USA</td><td>Konto, Dossier, Dateien, Zugangsschlüssel (nur Hash)</td></tr>
     <tr><td><b>Groq</b></td><td><b>KI-Antworten in der Geführten Vorsorge</b></td><td><b>USA</b></td><td>Text des Gesprächs (Ihre Antworten und Fragen, Thema, Sprache). Keine Fotos, keine PDFs, keine E-Mail-Adresse.</td></tr>
     <tr><td>GitHub Pages</td><td>Auslieferung der Webseite und der App-Dateien</td><td>USA</td><td>IP-Adresse und Gerätedaten beim Aufruf</td></tr>
     <tr><td>jsDelivr (CDN)</td><td>Auslieferung eines Programmbausteins (Supabase-Bibliothek)</td><td>weltweit verteilt</td><td>IP-Adresse beim Aufruf</td></tr>
@@ -73,16 +73,16 @@
   <p>Die Übermittlung ins Ausland stützt sich auf Ihre Einwilligung, die Sie beim Einrichten geben, und auf die vertraglichen Zusicherungen der Anbieter. Mit den Dienstleistern bestehen die üblichen Auftragsbearbeitungsbedingungen der Anbieter. Die Prüfung dieser Verträge durch eine Fachperson steht für ein echtes Angebot noch aus.</p>
 
   <h2>5. Wer sieht mein Dossier?</h2>
-  <p>Nur Sie, solange Sie keinen Key weitergeben. Wer Ihren Key hat, kann Ihr Dossier lesen (nicht ändern). Fotos und PDFs werden dabei über zeitlich begrenzte Links gezeigt. Sie können Keys jederzeit im Profil widerrufen. Geben Sie Keys nur Personen, denen Sie vertrauen. Das Projektteam hat technisch Zugriff auf die Datenbank, liest Ihre Inhalte aber nicht und greift nur für den Betrieb oder bei Fehlern darauf zu.</p>
+  <p>Nur Sie, solange Sie keinen Zugangsschlüssel weitergeben. Wer Ihren Zugangsschlüssel hat, kann Ihr Dossier lesen (nicht ändern). Fotos und PDFs werden dabei über zeitlich begrenzte Links gezeigt. Sie können Zugangsschlüssel jederzeit im Profil widerrufen. Geben Sie Zugangsschlüssel nur Personen, denen Sie vertrauen. Das Projektteam hat technisch Zugriff auf die Datenbank, liest Ihre Inhalte aber nicht und greift nur für den Betrieb oder bei Fehlern darauf zu.</p>
 
   <h2>6. Wie lange speichern wir Daten?</h2>
-  <p>Bis Sie Ihr Konto löschen oder das Projekt beendet wird. Mit «Konto löschen» im Profil entfernen wir Ihr Dossier, Ihre Dateien und Ihre Keys.</p>
+  <p>Bis Sie Ihr Konto löschen oder das Projekt beendet wird. Mit «Konto löschen» im Profil entfernen wir Ihr Dossier, Ihre Dateien und Ihre Zugangsschlüssel.</p>
 
   <h2>7. Sicherheit</h2>
   <p>Die Verbindung ist verschlüsselt (HTTPS). Jedes Konto sieht auf dem Server nur seine eigenen Daten (Zugriffsregeln auf Datenbank und Dateispeicher). Fotos und PDFs liegen in einem privaten Speicher. Trotzdem gibt es keine absolute Sicherheit. Lifely ist ein Prototyp: <b>Bitte tragen Sie nur Testdaten ein.</b></p>
 
   <h2>8. Ihre Rechte</h2>
-  <p>Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten sowie darauf, Ihre Einwilligung zu widerrufen. Vieles können Sie selbst in der App erledigen (ändern, Keys widerrufen, Konto löschen). Für alles andere schreiben Sie an die oben genannte Adresse. Sie können sich zudem beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) beschweren.</p>
+  <p>Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten sowie darauf, Ihre Einwilligung zu widerrufen. Vieles können Sie selbst in der App erledigen (ändern, Zugangsschlüssel widerrufen, Konto löschen). Für alles andere schreiben Sie an die oben genannte Adresse. Sie können sich zudem beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) beschweren.</p>
 
   <h2>9. Änderungen</h2>
   <p>Wir können diese Erklärung anpassen, zum Beispiel wenn sich die App ändert. Es gilt die jeweils hier veröffentlichte Fassung.</p>

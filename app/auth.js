@@ -1,4 +1,4 @@
-/* Lifely – Sprache, Anmeldung, Key eingeben, Einrichten (Agent «auth»). */
+/* Lifely – Sprache, Anmeldung, Zugangsschlüssel eingeben, Einrichten (Agent «auth»). */
 (() => {
   const LF = window.LF, t = LF.t, esc = LF.esc;
   const ic = (d) => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
@@ -11,7 +11,8 @@
   const LANGS = [{ id: 'de', name: 'Deutsch' }, { id: 'fr', name: 'Français' }, { id: 'en', name: 'English' }, { id: 'it', name: 'Italiano' }];
   const logo = (cls = 'authlogo') => `<img class="${cls}" src="icons/logo.svg" alt="">`;
   const $ = (s, r = LF.app) => r.querySelector(s);
-  const KEY_RE = /^LIFE-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+  const KEYV2 = !!(window.LF_CONFIG && LF_CONFIG.keyV2);
+  const KEY_RE = KEYV2 ? /^[A-Z0-9]{5}(-[A-Z0-9]{5}){3}$/ : /^LIFE-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
   let mode = 'in';
   /* ---------- Laden ---------- */
@@ -42,6 +43,7 @@
         ${LANGS.map(l => `<button type="button" class="choice" role="radio" data-lang="${l.id}" aria-checked="${cur === l.id}" lang="${l.id}"><span>${l.name}</span>${cur === l.id ? I.check : ''}</button>`).join('')}
       </div></section>`;
     LF.app.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => {
+      if (['fr', 'it'].includes(b.dataset.lang)) return LF.toast('Übersetzung folgt · Traduction bientôt · Traduzione in arrivo'); // Französisch und Italienisch noch nicht fertig
       LF.settings.lang = b.dataset.lang;
       try { localStorage.setItem('lifely_lang', b.dataset.lang); } catch (e) {}
       LF.saveSettings();
@@ -69,9 +71,9 @@
         <div id="aslow"></div>
         <button class="btn primary" id="asub" type="submit">${esc(up ? t('Konto erstellen') : t('Anmelden'))}</button>
       </form>
-      <div class="card mint auth-key"><div class="spread left">${I.key}<b>${esc(t('Sie haben einen Key?'))}</b></div>
-        <p class="tiny" style="color:inherit;margin:6px 0 12px">${esc(t('Sie möchten das Dossier einer Person ansehen? Geben Sie den Key ein, den Sie bekommen haben.'))}</p>
-        <button type="button" class="btn ghost" id="akey">${esc(t('Ich habe einen Key'))}</button></div>
+      <div class="card mint auth-key"><div class="spread left">${I.key}<b>${esc(t('Sie haben einen Zugangsschlüssel?'))}</b></div>
+        <p class="tiny" style="color:inherit;margin:6px 0 12px">${esc(t('Sie möchten das Dossier einer Person ansehen? Geben Sie den Zugangsschlüssel ein, den Sie bekommen haben.'))}</p>
+        <button type="button" class="btn ghost" id="akey">${esc(t('Ich habe einen Zugangsschlüssel'))}</button></div>
       <p class="fine center">${esc(t('Prototyp einer Projektarbeit der BFH. Bitte nur Testdaten verwenden.'))}</p>
       <p class="center"><button type="button" class="link" id="alang">${esc(t('Sprache ändern'))}</button></p></section>`;
     LF.app.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => {
@@ -106,23 +108,24 @@
     };
   };
 
-  /* ---------- Key eingeben ---------- */
-  // Eingabe in Form LIFE-XXXX-XXXX-XXXX bringen (Zeichen ohne I, L, O)
+  /* ---------- Zugangsschlüssel eingeben ---------- */
+  // Eingabe in Form bringen: V2 = XXXXX-XXXXX-XXXXX-XXXXX (20 Zeichen), bisher LIFE-XXXX-XXXX-XXXX (ohne I, L, O, 0, 1)
   const fmtKey = (v) => {
     let r = String(v).toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (KEYV2) return (r.slice(0, 20).match(/.{1,5}/g) || []).join('-');
     if (r.startsWith('LIFE')) r = r.slice(4);
-    else if (r.length < 4 && 'LIFE'.startsWith(r)) return r; // «L», «LI», «LIF»: die ersten Buchstaben von LIFE noch zu Ende tippen (echte Keys enthalten kein L oder I)
+    else if (r.length < 4 && 'LIFE'.startsWith(r)) return r; // «L», «LI», «LIF»: die ersten Buchstaben von LIFE noch zu Ende tippen
     r = r.slice(0, 12);
     return r ? 'LIFE-' + (r.match(/.{1,4}/g) || []).join('-') : '';
   };
   LF.routes.key = () => {
     LF.app.innerHTML = `<section class="screen auth">
       ${LF.back('login', t('Zurück'))}
-      <h1 tabindex="-1">${esc(t('Key eingeben'))}</h1>
-      <p class="lead">${esc(t('Geben Sie den Key ein, den Sie bekommen haben. Er sieht so aus: LIFE-XXXX-XXXX-XXXX'))}</p>
+      <h1 tabindex="-1">${esc(t('Zugangsschlüssel eingeben'))}</h1>
+      <p class="lead">${esc(KEYV2 ? t('Geben Sie den Zugangsschlüssel ein, den Sie bekommen haben. Er besteht aus 20 Zeichen und sieht so aus: XXXXX-XXXXX-XXXXX-XXXXX') : t('Geben Sie den Zugangsschlüssel ein, den Sie bekommen haben. Er sieht so aus: LIFE-XXXX-XXXX-XXXX'))}</p>
       <form id="kf" class="stack" novalidate>
-        <label class="field">${esc(t('Ihr Key'))}
-          <input class="in keyin" id="kk" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="LIFE-XXXX-XXXX-XXXX" maxlength="40"></label>
+        <label class="field">${esc(t('Ihr Zugangsschlüssel'))}
+          <input class="in keyin" id="kk" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="${KEYV2 ? 'XXXXX-XXXXX-XXXXX-XXXXX' : 'LIFE-XXXX-XXXX-XXXX'}" maxlength="40"></label>
         <p class="auth-err" id="kerr" role="alert" hidden></p>
         <button class="btn primary" id="ksub" type="submit">${esc(t('Dossier ansehen'))}</button>
       </form>
@@ -132,7 +135,7 @@
     inp.addEventListener('paste', (e) => { e.preventDefault(); inp.value = fmtKey((e.clipboardData || window.clipboardData).getData('text')); err(''); });
     $('#kf').onsubmit = async (ev) => {
       ev.preventDefault();
-      if (!KEY_RE.test(inp.value)) { err(t('Der Key ist noch nicht vollständig. Er besteht aus LIFE und 12 Zeichen.')); inp.focus(); return; }
+      if (!KEY_RE.test(inp.value)) { err(KEYV2 ? t('Der Zugangsschlüssel ist noch nicht vollständig. Er besteht aus 20 Zeichen.') : t('Der Zugangsschlüssel ist noch nicht vollständig. Er besteht aus LIFE und 12 Zeichen.')); inp.focus(); return; }
       err('');
       const btn = $('#ksub'), label = btn.textContent;
       btn.disabled = true; btn.textContent = t('Wird geprüft …');
@@ -148,7 +151,7 @@
   /* ---------- Einrichten (3 Schritte) ---------- */
   const dots = (n) => `<div class="dots" role="img" aria-label="${esc(t('Schritt {n} von 3', { n }))}">${[1, 2, 3].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</div>`;
   const POINTS = () => [
-    t('Ihre Daten liegen verschlüsselt auf einem Server in der Schweiz (Zürich). Andere sehen sie nur, wenn Sie einen Key weitergeben.'),
+    t('Ihre Daten liegen verschlüsselt auf einem Server in der Schweiz (Zürich). Andere sehen sie nur, wenn Sie einen Zugangsschlüssel weitergeben.'),
     t('Sie können alles jederzeit ändern und das Konto samt Daten löschen.'),
     t('Wenn Sie die KI (künstliche Intelligenz, ein Computerprogramm, das Fragen beantwortet) um Hilfe bitten, geht nur der Text Ihrer Frage an einen KI-Dienst in den USA (Groq), nie Ihre Dokumente oder Fotos.'),
     t('Lifely ist kein Rechtsdokument und kein Ersatz für Beratung.'),

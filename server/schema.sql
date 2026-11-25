@@ -1,4 +1,4 @@
--- Lifely: Datenbank (idempotent). Zugriff nur über Regeln (RLS), Ansicht mit Key nur über die Funktion «ansicht».
+-- Lifely: Datenbank (idempotent). Zugriff nur über Regeln (RLS), Ansicht mit Zugangsschlüssel nur über die Funktion «ansicht».
 
 create table if not exists public.dossiers (
   user_id uuid primary key references auth.users(id) on delete cascade,
@@ -12,12 +12,13 @@ create table if not exists public.access_keys (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   label text not null default '',
-  key_hash text not null unique,                 -- SHA-256 des Keys; der Key selbst wird nie gespeichert
+  key_hash text not null unique,                 -- SHA-256 des Zugangsschlüssels; der Zugangsschlüssel selbst wird nie gespeichert
   created_at timestamptz not null default now(),
   revoked_at timestamptz,
   last_used_at timestamptz,
   uses int not null default 0
 );
+alter table public.access_keys add column if not exists expires_at timestamptz not null default (now() + interval '12 months'); -- Zugangsschlüssel gelten 12 Monate
 create index if not exists access_keys_user_idx on public.access_keys(user_id);
 
 create table if not exists public.key_attempts (  -- Bremse gegen Raten: nur die Funktion schreibt hier
@@ -69,11 +70,22 @@ create policy lf_files_update on storage.objects for update to authenticated usi
 create policy lf_files_delete on storage.objects for delete to authenticated using (bucket_id = 'dossier-files' and (storage.foldername(name))[1] = auth.uid()::text);
 
 -- Speichern pro Bereich: ändert nur einen Bereich des Dossiers (Zeilenschutz bleibt wirksam), damit sich zwei Tabs nicht überschreiben
-create or replace function public.lf_save_section(sec text, val jsonb) returns void language sql security invoker as $$
+create or replace function public.lf_save_section(sec text, val jsonb) returns void language plpgsql security invoker as $$
+declare g text := val #>> '{values,geburt}';
+begin
+  -- Prüfung auf dem Server: gültiger Bereichsname, Geburtsdatum nicht in der Zukunft und nicht vor 1900
+  if sec is null or length(sec) > 40 or sec !~ '^[a-z0-9_]+$' then raise exception 'Ungültiger Bereich.'; end if;
+  if sec = 'persoenlich' and g is not null and g <> '' then
+    if g !~ '^\d{1,2}\.\d{1,2}\.\d{4}$' then raise exception 'Ungültiges Geburtsdatum.'; end if;
+    begin
+      if to_date(g, 'DD.MM.YYYY') > current_date or to_date(g, 'DD.MM.YYYY') < date '1900-01-01' then raise exception 'Ungültiges Geburtsdatum.'; end if;
+    exception when others then raise exception 'Ungültiges Geburtsdatum.';
+    end;
+  end if;
   update public.dossiers
      set data = jsonb_set(jsonb_set(coalesce(data,'{}'::jsonb), '{sections}', coalesce(data->'sections','{}'::jsonb), true), array['sections', sec], val, true)
    where user_id = auth.uid();
-$$;
+end $$;
 revoke all on function public.lf_save_section(text, jsonb) from public, anon;
 grant execute on function public.lf_save_section(text, jsonb) to authenticated;
 
@@ -92,7 +104,7 @@ alter table public.dossiers add constraint dossiers_settings_size check (pg_colu
 create or replace function public.lf_keys_limit() returns trigger language plpgsql as $$
 begin
   if (select count(*) from public.access_keys where user_id = new.user_id and revoked_at is null) >= 20 then
-    raise exception 'Zu viele Keys. Bitte widerrufen Sie nicht benötigte Keys.';
+    raise exception 'Zu viele Zugangsschlüssel. Bitte widerrufen Sie nicht benötigte Zugangsschlüssel.';
   end if;
   return new;
 end $$;
@@ -108,7 +120,7 @@ $$;
 revoke all on function public.lf_ai_take(uuid, int) from public, anon, authenticated;
 grant execute on function public.lf_ai_take(uuid, int) to service_role;
 
--- Key-Nutzung atomar zählen (nur Service-Rolle)
+-- Zugangsschlüssel-Nutzung atomar zählen (nur Service-Rolle)
 create or replace function public.lf_key_use(kid uuid) returns void language sql security definer set search_path = public as $$
   update public.access_keys set uses = uses + 1, last_used_at = now() where id = kid;
 $$;

@@ -112,9 +112,15 @@
       const d = LF.dossier.get(id), v = d.values || {};
       body.innerHTML = `<div class="stack">${s.fields.map(f => f.options ? choiceHtml(f.k, f.label, f.options, v[f.k])
         : `<label class="field">${esc(t(f.label))}${f.area ? `<textarea class="in" rows="4" data-k="${f.k}" placeholder="${esc(t(f.ph || ''))}">${esc(v[f.k] || '')}</textarea>`
-          : `<input class="in" data-k="${f.k}" value="${esc(v[f.k] || '')}" placeholder="${esc(t(f.ph || ''))}" autocomplete="off">`}</label>`).join('')}${filesBlock}</div>`;
+          : `<input class="in" data-k="${f.k}" ${f.check ? `data-check="${f.check}" inputmode="numeric"` : ''} value="${esc(v[f.k] || '')}" placeholder="${esc(t(f.ph || ''))}" autocomplete="off">`}${f.check ? '<span class="fielderr" role="alert" hidden></span>' : ''}</label>`).join('')}${filesBlock}</div>`;
       const setV = (k, val) => save((x) => { x.values = x.values || {}; x.values[k] = val; });
-      body.querySelectorAll('input[data-k],textarea[data-k]').forEach(el => el.addEventListener('input', () => setV(el.dataset.k, el.value)));
+      body.querySelectorAll('input[data-k],textarea[data-k]').forEach(el => el.addEventListener('input', () => {
+        if (!el.dataset.check) return setV(el.dataset.k, el.value);
+        // Feld mit Prüfung (z. B. Datum): nur gültige Werte speichern, Fehler direkt am Feld zeigen
+        const err = LF.check[el.dataset.check](el.value), box = el.parentElement.querySelector('.fielderr');
+        el.classList.toggle('bad', !!err); box.hidden = !err; box.textContent = err;
+        if (!err) setV(el.dataset.k, el.dataset.check === 'date' ? LF.check.normDate(el.value) : el.value.trim());
+      }));
       body.querySelectorAll('select[data-fid]').forEach(el => el.addEventListener('change', () => setV(el.dataset.fid, el.value)));
       body.querySelectorAll('.seg[data-fid]').forEach(g => g.onclick = (e) => {
         const b = e.target.closest('button'); if (!b) return;
@@ -125,11 +131,14 @@
 
     /* --- Einträge: list und people --- */
     const itemsOf = () => (LF.dossier.get(id).items || []);
-    function toList() { state.mode = 'list'; state.eid = null; state.draft = null; scrollTo(0, 0); s.kind === 'list' ? renderList() : renderPeople(); }
+    const pageBar = () => LF.app.querySelector('.dedit > .bottom'); // «Fertig» der Seite: nur in der Liste zeigen, im Formular gibt es nur Fertig/Abbrechen des Eintrags
+    function toList() { state.mode = 'list'; state.eid = null; state.draft = null; if (pageBar()) pageBar().hidden = false; scrollTo(0, 0); s.kind === 'list' ? renderList() : renderPeople(); }
     function openForm(eid) {
       const cur = eid ? itemsOf().find(x => x.id === eid) : null;
-      state.mode = 'form'; state.eid = eid || null;
+      state.mode = 'form'; state.eid = eid || null; if (pageBar()) pageBar().hidden = true;
       state.draft = cur ? JSON.parse(JSON.stringify(cur)) : { id: LF.uid(), files: [] };
+      const dr0 = state.draft, own = (arr, k) => { if (dr0[k] && arr && !arr.includes(dr0[k])) { dr0[k + 'Own'] = dr0[k]; dr0[k] = 'Andere'; } };
+      own(s.types, 'type'); own(s.roles, 'role');
       scrollTo(0, 0); s.kind === 'list' ? formList() : formPeople();
     }
     function commit() {
@@ -146,7 +155,7 @@
       body.querySelectorAll('[data-del]').forEach(b => b.onclick = () => remove(b.dataset.del, b.dataset.name));
       const add = body.querySelector('#add'); if (add) add.onclick = () => openForm();
     };
-    const formButtons = () => `<div class="bottom"><button type="button" class="btn primary" id="ok">${t('Speichern')}</button><button type="button" class="btn ghost" id="cancel">${t('Abbrechen')}</button></div>`;
+    const formButtons = () => `<div class="bottom"><button type="button" class="btn primary" id="ok">${t('Fertig')}</button><button type="button" class="btn ghost" id="cancel">${t('Abbrechen')}</button></div>`;
     const bindInputs = () => {
       body.querySelectorAll('[data-d]').forEach(el => el.addEventListener('input', () => { state.draft[el.dataset.d] = el.value; el.classList.remove('bad'); }));
       body.querySelector('#cancel').onclick = toList;
@@ -167,22 +176,31 @@
     function formList() {
       const dr = state.draft, nl = s.nameLabel || ['Name', ''], tl = s.noteLabel || ['Notiz', ''];
       body.innerHTML = `<div class="card plain dform"><h2>${state.eid ? t('Eintrag bearbeiten') : t('Neuer Eintrag')}</h2><div class="stack">
-        <label class="field">${t('Art')}<select class="in" data-d="type"><option value="">${t('Bitte wählen')}</option>${s.types.map(o => `<option value="${esc(o)}" ${dr.type === o ? 'selected' : ''}>${esc(t(o))}</option>`).join('')}</select></label>
+        <label class="field">${t('Art')}<select class="in" data-d="type" id="tsel"><option value="">${t('Bitte wählen')}</option>${s.types.map(o => `<option value="${esc(o)}" ${dr.type === o ? 'selected' : ''}>${esc(t(o))}</option>`).join('')}</select></label>
+        <label class="field" id="town" ${dr.type === 'Andere' ? '' : 'hidden'}>${t('Eigene Art eintragen')}<input class="in" data-d="typeOwn" value="${esc(dr.typeOwn || '')}" maxlength="40" placeholder="${esc(t('z. B. Reiseversicherung'))}" autocomplete="off"></label>
         <label class="field">${esc(t(nl[0]))}<input class="in" id="nm" data-d="name" value="${esc(dr.name || '')}" placeholder="${esc(t(nl[1] || ''))}" autocomplete="off"></label>
         <label class="field">${esc(t(tl[0]))} <span class="opt">${t('freiwillig')}</span><input class="in" data-d="note" value="${esc(dr.note || '')}" placeholder="${esc(t(tl[1] || ''))}" autocomplete="off"></label>
         ${filesBlock}</div>${formButtons()}</div>`;
       bindInputs();
       filesUi(body.querySelector('#ff'), (dr.files || []).slice(), (f) => { dr.files = f.slice(); });
+      const tsel = body.querySelector('#tsel'); tsel.addEventListener('change', () => { body.querySelector('#town').hidden = tsel.value !== 'Andere'; });
       body.querySelector('#ok').onclick = () => {
-        if (!(dr.name || '').trim()) { const el = body.querySelector('#nm'); el.classList.add('bad'); el.focus(); return LF.toast(t('Bitte tragen Sie einen Namen ein.')); }
-        dr.name = dr.name.trim(); commit();
+        const bad = (el, msg) => { el.classList.add('bad'); el.focus(); LF.toast(msg); };
+        const nm = body.querySelector('#nm'), nerr = !(dr.name || '').trim() ? t('Bitte tragen Sie einen Namen ein.') : LF.check.name(dr.name, s.nameKind || 'firma');
+        if (nerr) return bad(nm, nerr);
+        if (dr.type === 'Andere') {
+          const own = (dr.typeOwn || '').trim(), oe = own ? LF.check.name(own, 'titel') : '';
+          if (own && oe) return bad(body.querySelector('[data-d="typeOwn"]'), oe);
+          if (own) dr.type = own;
+        }
+        delete dr.typeOwn; dr.name = dr.name.trim(); commit();
       };
     }
     function renderPeople() {
       const items = itemsOf();
       body.innerHTML = `${items.length ? `<div class="list dcards">${items.map(x => {
         const tel = String(x.phone || '').replace(/[^\d+]/g, '');
-        return `<div class="card dcard plain"><div class="spread left"><span class="ico av">${esc(LF.initial(x.name))}</span><span class="m"><b>${esc(x.name || '')}</b><small>${esc([x.rel, x.role].filter(Boolean).join(' · '))}</small></span></div>
+        return `<div class="card dcard plain"><div class="spread left"><span class="ico av">${esc(LF.initial(x.name))}</span><span class="m"><b>${esc(x.name || '')}</b><small>${esc([x.rel, t(x.role || '')].filter(Boolean).join(' · '))}</small></span></div>
           ${x.phone ? `<p class="dnote">${esc(x.phone)}</p>` : ''}${x.note ? `<p class="dnote">${esc(x.note)}</p>` : ''}
           <div class="dacts">${tel ? `<a class="btn primary small" href="tel:${tel}">${ic('phone')}${t('Anrufen')}</a>` : ''}<button type="button" class="btn ghost small" data-edit="${x.id}">${ic('pen')}${t('Bearbeiten')}</button><button type="button" class="btn danger small" data-del="${x.id}" data-name="${esc(x.name || '')}">${ic('trash')}${t('Löschen')}</button></div></div>`;
       }).join('')}</div>` : `<div class="empty">${ic(s.icon)}<p>${t('Noch niemand eingetragen.')}</p></div>`}
@@ -194,13 +212,19 @@
       body.innerHTML = `<div class="card plain dform"><h2>${state.eid ? t('Person bearbeiten') : t('Neue Person')}</h2><div class="stack">
         <label class="field">${t('Name')}<input class="in" id="nm" data-d="name" value="${esc(dr.name || '')}" placeholder="${esc(t('z. B. Anna Muster'))}" autocomplete="off"></label>
         <label class="field">${t('Beziehung')} <span class="opt">${t('freiwillig')}</span><input class="in" data-d="rel" value="${esc(dr.rel || '')}" placeholder="${esc(t('z. B. Tochter'))}" autocomplete="off"></label>
-        <label class="field">${t('Rolle')}<select class="in" data-d="role"><option value="">${t('Bitte wählen')}</option>${s.roles.map(o => `<option value="${esc(o)}" ${dr.role === o ? 'selected' : ''}>${esc(t(o))}</option>`).join('')}</select></label>
+        <label class="field">${t('Rolle')}<select class="in" data-d="role" id="rsel"><option value="">${t('Bitte wählen')}</option>${s.roles.map(o => `<option value="${esc(o)}" ${dr.role === o ? 'selected' : ''}>${esc(t(o))}</option>`).join('')}</select></label>
+        <label class="field" id="rown" ${dr.role === 'Andere' ? '' : 'hidden'}>${t('Eigene Rolle eintragen')}<input class="in" data-d="roleOwn" value="${esc(dr.roleOwn || '')}" maxlength="40" placeholder="${esc(t('z. B. Patenkind'))}" autocomplete="off"></label>
         <label class="field">${t('Telefon')} <span class="opt">${t('freiwillig')}</span><input class="in" type="tel" data-d="phone" value="${esc(dr.phone || '')}" placeholder="079 123 45 67" autocomplete="off"></label>
         <label class="field">${t('Notiz')} <span class="opt">${t('freiwillig')}</span><textarea class="in" rows="3" data-d="note">${esc(dr.note || '')}</textarea></label></div>${formButtons()}</div>`;
       bindInputs();
+      const rsel = body.querySelector('#rsel'); rsel.addEventListener('change', () => { body.querySelector('#rown').hidden = rsel.value !== 'Andere'; });
       body.querySelector('#ok').onclick = () => {
-        if (!(dr.name || '').trim()) { const el = body.querySelector('#nm'); el.classList.add('bad'); el.focus(); return LF.toast(t('Bitte tragen Sie einen Namen ein.')); }
-        dr.name = dr.name.trim(); commit();
+        const bad = (el, msg) => { el.classList.add('bad'); el.focus(); LF.toast(msg); };
+        const nerr = !(dr.name || '').trim() ? t('Bitte tragen Sie einen Namen ein.') : LF.check.name(dr.name, 'person');
+        if (nerr) return bad(body.querySelector('#nm'), nerr);
+        const perr = LF.check.phone(dr.phone); if (perr) return bad(body.querySelector('[data-d="phone"]'), perr);
+        if (dr.role === 'Andere') { const own = (dr.roleOwn || '').trim(); if (own) { const oe = LF.check.name(own, 'titel'); if (oe) return bad(body.querySelector('[data-d="roleOwn"]'), oe); dr.role = own; } }
+        delete dr.roleOwn; dr.name = dr.name.trim(); commit();
       };
     }
 

@@ -25,3 +25,10 @@
 .dedit .switch { margin-top: 18px; }
 @media (max-width: 360px) { .dedit .dacts .btn { flex-basis: 100%; } .dedit .saved { font-size: .78rem; } }
 .dedit .saved.bad { color: var(--coralInk); }
+
+/* Name und Art untereinander mit Abstand (vorher klebten «CSS» und «Krankenkasse» zusammen) */
+.dcard .m { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.dcard .m small { color: var(--muted); font-size: .88rem; }
+.dcard .m b, .dcard .m small { overflow-wrap: anywhere; }
+.fielderr { color: #a3261f; font-weight: 600; font-size: .92rem; margin: 6px 0 0; }
+.in.bad { border-color: #a3261f; }
